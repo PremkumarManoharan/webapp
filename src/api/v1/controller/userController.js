@@ -1,6 +1,6 @@
 import { AuthenticationService } from "../services/basicAuthService.js";
 import { UserService } from "../services/userService.js"
-import { Sequelize } from "sequelize";
+
 
 //Doubt: 400 or 409 for validation
 export const createUser = async (req, res) => {
@@ -8,8 +8,13 @@ export const createUser = async (req, res) => {
         const user = await UserService.createUser(req.body);
         res.status(201).send(user);
     } catch (error) {
-        console.log(error.message);
-        res.status(400).end();
+        if(error.message === "DB_down"){
+            console.log(error.message);
+            res.status(503).end();
+        }else{
+            console.log(error.message);
+            res.status(400).end();
+        }
     }
 };
 
@@ -27,8 +32,13 @@ export const basicAuth = async (req, res, next) => {
         console.log("Auth completed");
         res.status(200);
     } catch (error) {
-        console.log(error.message);
-        res.status(401).end();
+        if(error.message === "DB_down"){
+            console.log(error.message);
+            res.status(503).end();
+        }else{
+            console.log(error.message);
+            res.status(401).end();
+        }
         next();
     }
 };

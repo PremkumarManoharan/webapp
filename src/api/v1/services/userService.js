@@ -1,4 +1,4 @@
-import User from "../model/user.js"
+import {User,db_status} from "../model/user.js"
 import bcrypt from 'bcrypt';
 
 function validateEmail(email) {
@@ -10,6 +10,10 @@ export class UserService {
     // Create a new user
     static async createUser(userData) {
         try {
+            //check db connection:
+            if(!db_status){
+                throw new Error('DB_down');
+            }
             // Check if the user already exists
             const existingUser = await User.findOne({ where: { username: userData.username } });
             if (existingUser) {
@@ -28,12 +32,15 @@ export class UserService {
             delete user.dataValues.password;
             return user;
         } catch (error) {
-            throw new Error(`Error creating user: ${error.message}`);
+            throw new Error(error.message);
         }
     }
 
     static async getUser(userData) {
         try {
+            if(!db_status){
+                throw new Error('DB_down');
+            }
             const existingUser = await User.findOne({ where: { username: userData.username } });
             if (existingUser) {
                 delete existingUser.dataValues.password;
@@ -42,13 +49,16 @@ export class UserService {
                 throw new Error('User not exist');
             }
         } catch (error) {
-            throw new Error(`Error getting user: ${error.message}`);
+            throw new Error(error.message);
         }
     }
 
 
     static async updateUser(userData, newData) {
         try {
+            if(!db_status){
+                throw new Error('DB_down');
+            }
             const user = await User.findOne({ where: { username: userData.username } });
             if (user) {
                 if (newData.username || newData.id || newData.account_created || newData.account_updated) {
@@ -75,7 +85,7 @@ export class UserService {
                 throw new Error('User not exist');
             }
         } catch (error) {
-            throw new Error(`Error getting user: ${error.message}`);
+            throw new Error(error.message);
         }
     }
 

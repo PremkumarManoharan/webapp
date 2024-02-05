@@ -1,5 +1,5 @@
 import bcrypt from 'bcrypt';
-import User from "../model/user.js"
+import {User,db_status} from "../model/user.js"
 
 // Authentication middleware
 
@@ -9,7 +9,10 @@ export class AuthenticationService {
         try {
             if (!req.get('Authorization')) {
                 throw new Error('Authorization Required');
-            } else {
+            }else if(!db_status){
+                throw new Error('DB_down');
+            }
+            else {
                 const user = await this.getUserfromAuthHeader(req);
                 // If credentials are not valid
                 const existingUser = await User.findOne({ where: { username: user.username } });
