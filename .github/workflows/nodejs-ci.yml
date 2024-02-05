@@ -22,7 +22,7 @@ jobs:
       with:
         node-version: ${{ matrix.node.version }}
     - name: Update Ubuntu
-      run: apt update
+      run: sudo apt update
     - name: Install npm dependencies
       run: npm install
 
@@ -31,4 +31,4 @@ jobs:
         npm start &
         SERVER_PID=$!
         sleep 10  # Waits for 10 seconds to ensure the server has started
-        kill $SERVER_PID
+        sudo kill $SERVER_PID
