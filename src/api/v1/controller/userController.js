@@ -1,3 +1,4 @@
+import {AuthenticationService} from "../services/basicAuthService.js";
 import {UserService} from "../services/userService.js"
 import { Sequelize } from "sequelize";
 //TODO: POST method to create user
@@ -20,7 +21,29 @@ export const checkQueryParam = (req, res, next) => {
     next();
 };
 
-//TODO: Get method to get user (self only)
+export const basicAuth = async (req, res, next) => {
+    try {
+        const auth = await AuthenticationService.auth(req,res,next);
+        console.log("Auth completed");
+        res.status(200);
+    } catch (error) {
+        console.log(error.message);
+        res.status(401).end();
+        next();
+    }
+};
 
+export const getUser = async (req, res) => {
+    try {
+        const authUser = await AuthenticationService.getUserfromAuthHeader(req);
+        // console.log("Header User:"+authUser)
+        const user = await UserService.getUser(authUser);
+        // console.log(user);
+        res.status(200).send(user);
+    } catch (error) {
+        console.log(error.message);
+        res.status(401).end();
+    }
+};
 
 //TODO: PUT methos to update user (self only)
