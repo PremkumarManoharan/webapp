@@ -1,6 +1,5 @@
 import express from "express"
 import {healthzController} from '../controller/controllers.js'
-
 const healthzRouter = express.Router()
 
 healthzRouter.use(healthzController.allowOnlyGetMethod);
