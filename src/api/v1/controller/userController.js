@@ -1,7 +1,7 @@
-import {AuthenticationService} from "../services/basicAuthService.js";
-import {UserService} from "../services/userService.js"
+import { AuthenticationService } from "../services/basicAuthService.js";
+import { UserService } from "../services/userService.js"
 import { Sequelize } from "sequelize";
-//TODO: POST method to create user
+
 //Doubt: 400 or 409 for validation
 export const createUser = async (req, res) => {
     try {
@@ -23,7 +23,7 @@ export const checkQueryParam = (req, res, next) => {
 
 export const basicAuth = async (req, res, next) => {
     try {
-        const auth = await AuthenticationService.auth(req,res,next);
+        const auth = await AuthenticationService.auth(req, res, next);
         console.log("Auth completed");
         res.status(200);
     } catch (error) {
@@ -46,4 +46,24 @@ export const getUser = async (req, res) => {
     }
 };
 
-//TODO: PUT methos to update user (self only)
+export const updateUser = async (req, res) => {
+    try {
+        const authUser = await AuthenticationService.getUserfromAuthHeader(req);
+        // console.log("Header User:"+authUser)
+        await UserService.updateUser(authUser, req.body);
+        // console.log(user);
+        res.status(204).end();
+    } catch (error) {
+        console.log(error.message);
+        res.status(400).end();
+    }
+};
+
+export const allowOnlyMethod = (req, res, next) => {
+    if (req.method === 'GET' || req.method === 'POST' || req.method === 'PUT') {
+        next();
+    } else {
+        res.header('Cache-Control', 'no-cache');
+        return res.status(405).end();
+    }
+};

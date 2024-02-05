@@ -12,21 +12,18 @@ export class UserService {
         try {
             // Check if the user already exists
             const existingUser = await User.findOne({ where: { username: userData.username } });
-            console.log(existingUser);
             if (existingUser) {
                 throw new Error('User already exists with this email');
             } else if (!validateEmail(userData.username)) {
                 throw new Error('Invalid email format');
             }
-            const {first_name,last_name,password,username} = userData;
-            console.log(btoa(password));
-            const bCryptPassword = await bcrypt.hash(btoa(password),10);
-            console.log(bCryptPassword);
+            const { first_name, last_name, password, username } = userData;
+            const bCryptPassword = await bcrypt.hash(btoa(password), 10);
             const user = await User.create({
-                username : username,
-                password : bCryptPassword,
-                first_name : first_name,
-                last_name : last_name
+                username: username,
+                password: bCryptPassword,
+                first_name: first_name,
+                last_name: last_name
             });
             delete user.dataValues.password;
             return user;
@@ -36,15 +33,48 @@ export class UserService {
     }
 
     static async getUser(userData) {
-        try{
+        try {
             const existingUser = await User.findOne({ where: { username: userData.username } });
-            if(existingUser){
+            if (existingUser) {
                 delete existingUser.dataValues.password;
                 return existingUser;
-            }else{
+            } else {
                 throw new Error('User not exist');
             }
-        }catch(error){
+        } catch (error) {
+            throw new Error(`Error getting user: ${error.message}`);
+        }
+    }
+
+
+    static async updateUser(userData, newData) {
+        try {
+            const user = await User.findOne({ where: { username: userData.username } });
+            if (user) {
+                if (newData.username || newData.id || newData.account_created || newData.account_updated) {
+                    throw new Error('username cannot be updated')
+                }
+                if (user.first_name !== newData.first_name) {
+                    user.update({
+                        first_name: newData.first_name
+                    });
+                }
+                if (user.last_name !== newData.last_name) {
+                    user.update({
+                        last_name: newData.last_name
+                    });
+                }
+                if (newData.password !== undefined && !(await bcrypt.compare(btoa(newData.password), user.password))) {
+                    const bCryptPassword = await bcrypt.hash(btoa(newData.password), 10);
+                    user.update({
+                        password: bCryptPassword
+                    });
+                }
+
+            } else {
+                throw new Error('User not exist');
+            }
+        } catch (error) {
             throw new Error(`Error getting user: ${error.message}`);
         }
     }
