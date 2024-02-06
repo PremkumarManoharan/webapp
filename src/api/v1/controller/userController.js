@@ -1,59 +1,38 @@
 import { AuthenticationService } from "../services/basicAuthService.js";
-import { UserService } from "../services/userService.js"
+import { UserService } from "../../services/userService.js"
 
 
 export const createUser = async (req, res) => {
     try {
         const user = await UserService.createUser(req.body);
         res.status(201).send(user);
-    } catch (error) {
-        if(error.message === "DB_down"){
-            console.log(error.message);
-            res.status(503).end();
-        }else{
-            console.log(error.message);
-            res.status(400).end();
-        }
+    }
+    catch (error) {
+        console.log(error.message);
+        res.status(400).send(error.message);
     }
 };
 
 export const getUser = async (req, res) => {
+
     try {
-        const auth = await AuthenticationService.auth(req, res);
-        console.log("Auth completed");
         const authUser = await AuthenticationService.getUserfromAuthHeader(req);
         const user = await UserService.getUser(authUser);
         res.status(200).send(user);
     } catch (error) {
-        if(error.message === "DB_down"){
-            console.log(error.message);
-            res.status(503).end();
-        }else{
-            console.log(error.message);
-            res.status(401).end();
-        }
+        console.log(error.message);
+        res.status(401).end();
     }
 };
 
 export const updateUser = async (req, res) => {
     try {
-        const auth = await AuthenticationService.auth(req, res);
-        console.log("Auth completed");
         const authUser = await AuthenticationService.getUserfromAuthHeader(req);
         await UserService.updateUser(authUser, req.body);
         res.status(204).end();
     } catch (error) {
-        if(error.message === "DB_down"){
-            console.log(error.message);
-            res.status(503).end();
-        }else if(error.message === "Invalid Username" || error.message === "Invalid Password"){
-            console.log(error.message);
-            res.status(401).end();
-        }
-        else{
-            console.log(error.message);
-            res.status(400).end();
-        }
+        console.log(error.message);
+        res.status(400).send(error.message);
     }
 };
 
@@ -70,4 +49,12 @@ export const allowOnlyMethod = (req, res, next) => {
     } else {
         return res.status(405).end();
     }
+};
+
+export const checkPayload = (req, res, next) => {
+    if (!req.header('Content-Type')) {
+        res.header('Cache-Control', 'no-cache');
+        return res.status(400).send("Missing Payload");
+    }
+    next();
 };

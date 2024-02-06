@@ -1,4 +1,4 @@
-import {User,db_status} from "../model/user.js"
+import {User} from "../model/user.js"
 import bcrypt from 'bcrypt';
 
 function validateEmail(email) {
@@ -10,10 +10,6 @@ export class UserService {
     // Create a new user
     static async createUser(userData) {
         try {
-            //check db connection:
-            if(!db_status){
-                throw new Error('DB_down');
-            }
             // Check if the user already exists
             const existingUser = await User.findOne({ where: { username: userData.username } });
             if (existingUser) {
@@ -38,9 +34,6 @@ export class UserService {
 
     static async getUser(userData) {
         try {
-            if(!db_status){
-                throw new Error('DB_down');
-            }
             const existingUser = await User.findOne({ where: { username: userData.username } });
             delete existingUser.dataValues.password;
             return existingUser;
@@ -52,13 +45,10 @@ export class UserService {
 
     static async updateUser(userData, newData) {
         try {
-            if(!db_status){
-                throw new Error('DB_down');
-            }
             const user = await User.findOne({ where: { username: userData.username } });
             if (user) {
                 if (newData.username || newData.id || newData.account_created || newData.account_updated) {
-                    throw new Error('username cannot be updated')
+                    throw new Error('Trying to Update readOnly attribute')
                 }
                 if (user.first_name !== newData.first_name) {
                     user.update({
