@@ -1,5 +1,5 @@
 import { AuthenticationService } from "../services/basicAuthService.js";
-import { UserService } from "../../services/userService.js"
+import { UserService } from "../services/userService.js"
 
 
 export const createUser = async (req, res) => {
