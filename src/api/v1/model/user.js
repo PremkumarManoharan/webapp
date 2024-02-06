@@ -45,7 +45,7 @@ export const User = sequelize.define('User', {
     createdAt: 'account_created'
 });
 
-export const db_status = false;
+export let db_status = false;
 
 const syncUserModel  = async () => {
   try {
@@ -57,4 +57,6 @@ const syncUserModel  = async () => {
   }
 }
 
-syncUserModel();
+if(!db_status){
+  syncUserModel();
+}
