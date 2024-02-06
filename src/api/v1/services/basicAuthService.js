@@ -5,7 +5,7 @@ import {User,db_status} from "../model/user.js"
 
 export class AuthenticationService {
 
-    static async auth(req, res, next) {
+    static async auth(req, res) {
         try {
             if (!req.get('Authorization')) {
                 throw new Error('Authorization Required');
@@ -22,7 +22,6 @@ export class AuthenticationService {
                     throw new Error('Invalid Password');
                 } else {
                     console.log(await bcrypt.compare(user.password, existingUser.password));
-                    next();
                 }
             }
         }

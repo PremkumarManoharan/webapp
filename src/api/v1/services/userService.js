@@ -42,12 +42,8 @@ export class UserService {
                 throw new Error('DB_down');
             }
             const existingUser = await User.findOne({ where: { username: userData.username } });
-            if (existingUser) {
-                delete existingUser.dataValues.password;
-                return existingUser;
-            } else {
-                throw new Error('User not exist');
-            }
+            delete existingUser.dataValues.password;
+            return existingUser;
         } catch (error) {
             throw new Error(error.message);
         }
