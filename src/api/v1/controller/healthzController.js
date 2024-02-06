@@ -4,12 +4,11 @@ import sequelize from "../config/dbConfig.js"
 export const getHealthz = async (req, res) => {
     sequelize.authenticate().then(() => {
         res.header('Cache-Control', 'no-cache');
-        return res.status(200).end();
+        res.status(200).end();
       }).catch((e) => {
         res.header('Cache-Control', 'no-cache');
         res.status(503).end();
-        console.log(e)
-        return
+        console.log(e);
       })
 };
 
