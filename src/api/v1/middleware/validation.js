@@ -1,6 +1,3 @@
-
-
-
 export const validatePostAttributes = (requiredAttributes) => {
     return (req, res, next) => {
         console.log(req.body);
@@ -11,7 +8,7 @@ export const validatePostAttributes = (requiredAttributes) => {
         }
 
         let extraAttributes = receivedAttributes.filter(attr => !requiredAttributes.includes(attr));
-        const ignoreAttrubutes = ['account_updated','account_created']
+        const ignoreAttrubutes = ['account_updated', 'account_created']
         extraAttributes = extraAttributes.filter(attr => !ignoreAttrubutes.includes(attr));
         if (extraAttributes.length > 0) {
             return res.status(400).end();
@@ -31,7 +28,7 @@ export const validatePutAttributes = (acceptedAttributes) => {
     };
 };
 
-export const checkJsonSyntax = (err,req, res, next) => {
+export const checkJsonSyntax = (err, req, res, next) => {
     if (err instanceof SyntaxError && err.status === 400 && 'body' in err) {
         console.error(err);
         return res.status(400).end(); // Bad request

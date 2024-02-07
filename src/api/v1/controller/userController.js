@@ -52,7 +52,7 @@ export const allowOnlyMethod = (req, res, next) => {
 };
 
 export const checkPayload = (req, res, next) => {
-        if (!req.header('Content-Type')) {
+    if (!req.header('Content-Type')) {
         res.header('Cache-Control', 'no-cache');
         return res.status(400).end();
     }
