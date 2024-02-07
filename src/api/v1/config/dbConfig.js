@@ -30,7 +30,6 @@ export const createDatabase = async () => {
       console.log(`Database ${process.env.PG_DB} created successfully.`);
     } catch (error) {
       console.error(`Failed to create database ${process.env.PG_DB}:`, error);
-      process.exit(1); 
     } finally {
       await client.end(); 
     }
@@ -49,7 +48,7 @@ export const dropDatabase = async () => {
       await client.query(`DROP DATABASE "${process.env.PG_DB}"`); // Create new database
       console.log(`Database ${process.env.PG_DB} deleted successfully.`);
     } catch (error) {
-        process.exit(1); 
+       console.log(`Database ${process.env.PG_DB} does not exist to DROP`);
     } finally {
       await client.end(); 
     }
