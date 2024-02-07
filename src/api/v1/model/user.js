@@ -50,7 +50,7 @@ let db_status = false;
 
 const syncUserModel  = async () => {
   try {
-    await User.sync({ force: true });
+    await User.sync({ alert: true });
     db_status =  true;
   } catch (error) {
     if (error.name === 'SequelizeConnectionError') {
