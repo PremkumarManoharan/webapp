@@ -41,12 +41,10 @@ Before getting started, make sure you have the following installed on your syste
 
 4. **Start PostgreSQL**
 
-    Navigate to the `/scripts` folder and execute the following scripts:
-
     - Run the following command to start the PostgreSQL server:
 
         ```bash
-        ./start-pg.sh
+        sudo systemctl start postgresql
         ```
 
 5. **Start the Application**
