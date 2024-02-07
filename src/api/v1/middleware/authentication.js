@@ -1,5 +1,5 @@
 import { AuthenticationService } from "../services/basicAuthService.js";
-import sequelize from "../config/dbConfig.js"
+import {sequelize} from "../config/dbConfig.js"
 
 
 export const basicAuth = async (req, res,next) => {

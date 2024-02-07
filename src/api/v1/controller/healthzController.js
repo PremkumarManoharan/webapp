@@ -1,4 +1,4 @@
-import sequelize from "../config/dbConfig.js"
+import {sequelize} from "../config/dbConfig.js"
 
 //Check connection with DB and return 200 if ok or else 503
 export const getHealthz = async (req, res) => {
