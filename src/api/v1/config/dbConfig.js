@@ -34,22 +34,3 @@ export const createDatabase = async () => {
       await client.end(); 
     }
 };
-
-export const dropDatabase = async () => {
-    const client = new Client({
-      host: 'localhost',
-      database: 'postgres',
-      user: process.env.PG_USER,
-      password: process.env.PG_PASSWORD,
-    });
-  
-    try {
-      await client.connect(); // Connect to the default 'postgres' database
-      await client.query(`DROP DATABASE "${process.env.PG_DB}"`); // Create new database
-      console.log(`Database ${process.env.PG_DB} deleted successfully.`);
-    } catch (error) {
-       console.log(`Database ${process.env.PG_DB} does not exist to DROP`);
-    } finally {
-      await client.end(); 
-    }
-};
