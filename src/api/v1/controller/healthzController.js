@@ -1,15 +1,15 @@
-import {sequelize} from "../config/dbConfig.js"
+import { sequelize } from "../config/dbConfig.js"
 
 //Check connection with DB and return 200 if ok or else 503
 export const getHealthz = async (req, res) => {
     sequelize.authenticate().then(() => {
         res.header('Cache-Control', 'no-cache');
         res.status(200).end();
-      }).catch((e) => {
+    }).catch((e) => {
         res.header('Cache-Control', 'no-cache');
         res.status(503).end();
         console.log(e);
-      })
+    })
 };
 
 
@@ -37,6 +37,6 @@ export const allowOnlyGetMethod = (req, res, next) => {
         res.header('Cache-Control', 'no-cache');
         return res.status(405).end();
     } else {
-      next();
+        next();
     }
 };

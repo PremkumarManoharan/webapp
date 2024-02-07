@@ -1,4 +1,4 @@
-import {sequelize, createDatabase} from "../config/dbConfig.js"
+import { sequelize, createDatabase } from "../config/dbConfig.js"
 import { DataTypes } from "sequelize";
 
 
@@ -39,19 +39,19 @@ export const User = sequelize.define('User', {
     },
   },
 
-},{
-    //other model options
-    freezeTableName: true,
-    updatedAt: 'account_updated',
-    createdAt: 'account_created'
+}, {
+  //other model options
+  freezeTableName: true,
+  updatedAt: 'account_updated',
+  createdAt: 'account_created'
 });
 
 let db_status = false;
 
-const syncUserModel  = async () => {
+const syncUserModel = async () => {
   try {
     await User.sync({ alert: true });
-    db_status =  true;
+    db_status = true;
   } catch (error) {
     if (error.name === 'SequelizeConnectionError') {
       console.log(`Database ${process.env.PG_DB} does not exist. Creating...`);
@@ -69,6 +69,6 @@ const syncUserModel  = async () => {
   }
 }
 
-if(!db_status){
+if (!db_status) {
   syncUserModel();
 }
