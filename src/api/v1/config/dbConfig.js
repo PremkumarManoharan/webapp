@@ -49,6 +49,8 @@ export const dropDatabase = async () => {
       await client.query(`DROP DATABASE "${process.env.PG_DB}"`); // Create new database
       console.log(`Database ${process.env.PG_DB} deleted successfully.`);
     } catch (error) {
-        throw new Error(error.message);
+        process.exit(1); 
+    } finally {
+      await client.end(); 
     }
 };
