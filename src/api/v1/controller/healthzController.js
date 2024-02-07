@@ -12,6 +12,7 @@ export const getHealthz = async (req, res) => {
       })
 };
 
+
 //Check if payload present if yes return 400 or else go to next step
 export const checkPayload = (req, res, next) => {
     if (req.header('Content-Type')) {

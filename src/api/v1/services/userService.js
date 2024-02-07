@@ -47,9 +47,6 @@ export class UserService {
         try {
             const user = await User.findOne({ where: { username: userData.username } });
             if (user) {
-                if (newData.username || newData.id || newData.account_created || newData.account_updated) {
-                    throw new Error('Trying to Update readOnly attribute')
-                }
                 if (user.first_name !== newData.first_name) {
                     user.update({
                         first_name: newData.first_name

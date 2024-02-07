@@ -1,7 +1,6 @@
 import bcrypt from 'bcrypt';
 import {User} from "../model/user.js"
 
-// Authentication middleware
 
 export class AuthenticationService {
 
@@ -12,7 +11,6 @@ export class AuthenticationService {
             }
             else {
                 const user = await this.getUserfromAuthHeader(req);
-                // If credentials are not valid
                 const existingUser = await User.findOne({ where: { username: user.username } });
                 if (!(existingUser)) {
                     throw new Error('Invalid Username');
@@ -29,19 +27,12 @@ export class AuthenticationService {
     }
 
     static async getUserfromAuthHeader(req) {
-        var credentials = Buffer.from(req.get('Authorization').split(' ')[1], 'base64')
-            // <Buffer 75 73 65 72 6e 61 6d 65 3a 70 61 73 73 77 6f 72 64>
-            .toString()
-            // username:password
-            .split(':')
-            // ['username', 'password']
-
+        var credentials = Buffer.from(req.get('Authorization').split(' ')[1], 'base64').toString().split(':')
         var user = {
             username: credentials[0],
             password: credentials[1]
         }
         console.log(user);
         return user;
-
     }
 }
