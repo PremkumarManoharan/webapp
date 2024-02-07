@@ -9,7 +9,7 @@ export const createUser = async (req, res) => {
     }
     catch (error) {
         console.log(error.message);
-        res.status(400).send(error.message);
+        res.status(400).end();
     }
 };
 
@@ -32,7 +32,7 @@ export const updateUser = async (req, res) => {
         res.status(204).end();
     } catch (error) {
         console.log(error.message);
-        res.status(400).send(error.message);
+        res.status(400).end();
     }
 };
 
@@ -54,7 +54,7 @@ export const allowOnlyMethod = (req, res, next) => {
 export const checkPayload = (req, res, next) => {
     if (!req.header('Content-Type')) {
         res.header('Cache-Control', 'no-cache');
-        return res.status(400).send("Missing Payload");
+        return res.status(400).end();
     }
     next();
 };
