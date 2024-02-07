@@ -1,4 +1,4 @@
-import {sequelize, createDatabase, dropDatabase} from "../config/dbConfig.js"
+import {sequelize, createDatabase} from "../config/dbConfig.js"
 import { DataTypes } from "sequelize";
 
 
@@ -55,16 +55,20 @@ const syncUserModel  = async () => {
   } catch (error) {
     if (error.name === 'SequelizeConnectionError') {
       console.log(`Database ${process.env.PG_DB} does not exist. Creating...`);
-      await createDatabase();
+      try {
+        await createDatabase();
+        syncUserModel();
+      } catch (error) {
+        console.error('Unable to connect to the database: waiting..Retry in 5sec');
+        setTimeout(syncUserModel, 5000);
+      }
     } else {
-      console.error('Unable to connect to the database:', error);
+      console.error('Unable to connect to the database: waiting..Retry in 5sec');
+      setTimeout(syncUserModel, 5000);
     }
-    console.error('Unable to connect to the database: waiting..Retry in 5sec');
-    setTimeout(syncUserModel, 5000);
   }
 }
 
 if(!db_status){
-  await dropDatabase();
   syncUserModel();
 }
