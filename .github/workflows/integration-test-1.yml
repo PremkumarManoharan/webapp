@@ -1,10 +1,11 @@
 name: Create-account-test
 
 on:
-  pull_request:
-    types:
-      - opened
-      - synchronize
+    workflow_dispatch:
+#   pull_request:
+#     types:
+#       - opened
+#       - synchronize
 
 jobs:
     build:
