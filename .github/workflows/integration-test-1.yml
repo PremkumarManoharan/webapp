@@ -57,7 +57,7 @@ jobs:
           run: npm install
             
         - name: Run the application
-          run: node server.js
+          run: node server.js &
         
         - name: Deploy Stage
           uses: fjogeleit/http-request-action@v1
