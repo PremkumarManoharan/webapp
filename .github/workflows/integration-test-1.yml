@@ -13,13 +13,14 @@ jobs:
             matrix:
                 node-version: [21.6.1]
         steps:
+        - name: Update Ubuntu
+          run: sudo apt update
+
         - uses: actions/checkout@v2
         - name: Use Node.js ${{ matrix.node-version }}
           uses: actions/setup-node@v2
           with:
             node-version: ${{ matrix.node.version }}
-        - name: Update Ubuntu
-          run: sudo apt update
 
         - name: Install PostgresSQL
           run: sudo apt install -y postgresql-14 postgresql-client-14
@@ -33,7 +34,6 @@ jobs:
         - name: Test env variables from secrets
           run: | 
             echo $PG_DB
-        
         
         - name: Create a service account (postgres user)
           run: |
