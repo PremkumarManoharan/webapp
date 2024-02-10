@@ -36,6 +36,12 @@ jobs:
         - name: Start PostgreSQL database
           run: sudo systemctl start postgresql
         
+        - name: Test env variables
+          run: | 
+            echo $PG_USER
+            echo "Using secret value ${{ secrets.PG_USER }}"
+        
+        
         - name: Create a service account (postgres user)
           run: |
             sudo -u postgres psql -c "CREATE USER $PG_USER WITH PASSWORD '$PG_DB';"
