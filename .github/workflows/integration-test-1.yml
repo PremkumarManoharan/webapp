@@ -9,13 +9,6 @@ on:
 jobs:
     build:
         runs-on: ubuntu-latest
-        environment: dev
-        env:
-            PG_USER: ${{ secrets.PG_USER }}
-            PG_PASSWORD: ${{ secrets.PG_PASSWORD }}
-            PG_DB: ${{ secrets.PG_DB }}
-            PG_HOST: ${{ secrets.PG_HOST }}
-
         strategy:
             matrix:
                 node-version: [21.6.1]
@@ -45,8 +38,8 @@ jobs:
         
         - name: Create a service account (postgres user)
           run: |
-            sudo -u postgres psql -c "CREATE USER $PG_USER WITH PASSWORD '$PG_DB';"
-            sudo -u postgres psql -c "ALTER USER $PG_USER CREATEDB;"
+            sudo -u postgres psql -c "CREATE USER ${{ secrets.PG_USER }} WITH PASSWORD '${{ secrets.PG_PASSWORD }}';"
+            sudo -u postgres psql -c "ALTER USER ${{ secrets.PG_USER }} CREATEDB;"
         
         - name: Start PostgreSQL database
           run: sudo systemctl start postgresql
@@ -54,10 +47,10 @@ jobs:
         - name: Create the .env file and write the environment variables to it
           run: |
             cat << EOF > .env
-            PG_USER=$PG_USER
-            PG_PASSWORD=$PG_PASSWORD
-            PG_DB=$PG_DB
-            PG_HOST=$PG_HOST
+            PG_USER=${{ secrets.PG_USER }}
+            PG_PASSWORD=${{ secrets.PG_PASSWORD }}
+            PG_DB=${{ secrets.PG_DB }}
+            PG_HOST=${{ secrets.PG_HOST }}
             EOF
             echo ".env file created with the specified content."
             
