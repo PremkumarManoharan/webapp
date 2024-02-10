@@ -39,7 +39,7 @@ jobs:
         
         - name: Test env variables from secrets
           run: | 
-            echo $PG_USER
+            echo $PG_DB
             echo "Using secret value ${{ secrets.PG_USER }}"
         
         
