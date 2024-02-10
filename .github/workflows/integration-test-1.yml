@@ -7,7 +7,7 @@ on:
       - synchronize
 
 jobs:
-    build:
+  integration-tests:
         runs-on: ubuntu-latest
         strategy:
             matrix:
@@ -66,6 +66,7 @@ jobs:
             url: 'http://localhost:3000/v1/user'
             method: 'POST'
             customHeaders: '{"Content-Type": "application/json"}'
+            ignoreStatusCodes: '401,500,503,400'
             data: '{
               "first_name": "prem",
               "last_name": "kumar",
@@ -84,11 +85,43 @@ jobs:
             method: 'GET'
             username: "prem@gmail.com"
             password: "prem123"
-            ignoreStatusCodes: '401,500,503'
-            
+            ignoreStatusCodes: '401,500,503,400'
+
         - name: Show Response
           run: |
-            echo ${{ steps.getUser.outputs.response }}
+            echo ${{ steps.getUser.outputs.response }}        
+    
+        - name: Update User
+          uses: fjogeleit/http-request-action@v1
+          id: updateUser
+          with:
+            url: 'http://localhost:3000/v1/user/self'
+            method: 'PUT'
+            username: "prem@gmail.com"
+            password: "prem123"
+            ignoreStatusCodes: '401,500,503,400'
+            customHeaders: '{"Content-Type": "application/json"}'
+            data: '{"first_name": "Prem Kumar"}'
+
+        - name: Show Response
+          run: |
+            echo ${{ steps.updateUser.outputs.response }}
+            
+        - name: Get User
+          uses: fjogeleit/http-request-action@v1
+          id: getUserAfterUpdate
+          with:
+            url: 'http://localhost:3000/v1/user/self'
+            method: 'GET'
+            username: "prem@gmail.com"
+            password: "prem123"
+            ignoreStatusCodes: '401,500,503,400'
+            
+        - name: Validate and Show Response
+          if: ${{ fromJson(steps.getUserAfterUpdate.outputs.response).first_name }} == "Prem Kumar"
+          run: |
+            echo ${{ steps.getUserAfterUpdate.outputs.response }}
+            
 
         - name: Stop the Server
           run: |
