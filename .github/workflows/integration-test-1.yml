@@ -102,10 +102,6 @@ jobs:
             ignoreStatusCodes: '401,500,503,400'
             customHeaders: '{"Content-Type": "application/json"}'
             data: '{"first_name": "Prem Kumar"}'
-
-        - name: Show Response
-          run: |
-            echo ${{ steps.updateUser.outputs.response }}
             
         - name: Get User
           uses: fjogeleit/http-request-action@v1
