@@ -54,7 +54,7 @@ jobs:
             EOF
             echo ".env file created with the specified content."
             
-        - name: Install dependencies
+        - name: Install node dependencies
           run: npm install
             
         - name: Run the application
