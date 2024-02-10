@@ -75,8 +75,6 @@ jobs:
         - name: Show Response
           run: |
             echo ${{ steps.createUser.outputs.response }}
-            echo ${{ steps.createUser.outputs.headers }}
-            echo ${{ fromJson(steps.createUser.outputs.response).first_name }}
         
         - name: Get User
           uses: fjogeleit/http-request-action@v1
@@ -87,6 +85,10 @@ jobs:
             username: "prem@gmail.com"
             password: "prem123"
             ignoreStatusCodes: '401,500,503'
+            
+        - name: Show Response
+          run: |
+            echo ${{ steps.getUser.outputs.response }}
 
         - name: Stop the Server
           run: |
