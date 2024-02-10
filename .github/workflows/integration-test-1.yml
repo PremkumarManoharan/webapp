@@ -38,8 +38,8 @@ jobs:
         
         - name: Create a service account (postgres user)
           run: |
-            sudo -u postgres psql -c "CREATE USER PG_USER WITH PASSWORD 'PG_DB';"
-            sudo -u postgres psql -c "ALTER USER PG_USER CREATEDB;"
+            sudo -u postgres psql -c "CREATE USER $PG_USER WITH PASSWORD '$PG_DB';"
+            sudo -u postgres psql -c "ALTER USER $PG_USER CREATEDB;"
         
         - name: Start PostgreSQL database
           run: sudo systemctl start postgresql
