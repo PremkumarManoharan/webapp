@@ -37,7 +37,7 @@ jobs:
         - name: Start PostgreSQL database
           run: sudo systemctl start postgresql
         
-        - name: Test env variables
+        - name: Test env variables from secrets
           run: | 
             echo $PG_USER
             echo "Using secret value ${{ secrets.PG_USER }}"
