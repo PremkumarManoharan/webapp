@@ -54,11 +54,12 @@ const syncUserModel = async () => {
   try {
     if(process.env.NODE_ENV === "test"){
       await User.sync({ force : true });
+      db_status = true;
     }else{
       await User.sync({ alert: true });
+      db_status = true;
     }
    
-    db_status = true;
   } catch (error) {
     if (error.name === 'SequelizeConnectionError') {
       console.log(`Database ${process.env.PG_DB} does not exist. Creating...`);
