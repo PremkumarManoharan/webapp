@@ -31,17 +31,14 @@ jobs:
         - name: Start PostgreSQL database
           run: sudo systemctl start postgresql
         
-        - name: Test env variables from secrets
-          run: | 
-            echo $PG_DB
+        - name: Start PostgreSQL database
+          run: sudo systemctl start postgresql
         
         - name: Create a service account (postgres user)
           run: |
             sudo -u postgres psql -c "CREATE USER ${{ secrets.PG_USER }} WITH PASSWORD '${{ secrets.PG_PASSWORD }}';"
             sudo -u postgres psql -c "ALTER USER ${{ secrets.PG_USER }} CREATEDB;"
-        
-        - name: Start PostgreSQL database
-          run: sudo systemctl start postgresql
+      
         
         - name: Create the .env file and write the environment variables to it
           run: |
@@ -57,7 +54,7 @@ jobs:
           run: npm install
             
         - name: Run Integration tests
-          run: npm test &
+          run: npm test
 
         - name: Stop the Server
           run: |
