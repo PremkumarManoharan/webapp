@@ -42,7 +42,7 @@ export class UserService {
         }
     }
 
-
+///TODO: CHECK FOR EMPTY Values before updating
     static async updateUser(userData, newData) {
         try {
             const user = await User.findOne({ where: { username: userData.username } });

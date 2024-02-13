@@ -48,9 +48,15 @@ export const User = sequelize.define('User', {
 
 let db_status = false;
 
+
 const syncUserModel = async () => {
   try {
-    await User.sync({ alert: true });
+    if(process.env.NODE_ENV === "test"){
+      await User.sync({ force : true });
+    }else{
+      await User.sync({ alert: true });
+    }
+   
     db_status = true;
   } catch (error) {
     if (error.name === 'SequelizeConnectionError') {
