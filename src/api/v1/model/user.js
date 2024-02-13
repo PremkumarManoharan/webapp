@@ -50,6 +50,7 @@ let db_status = false;
 
 
 const syncUserModel = async () => {
+  console.log(process.env.NODE_ENV);
   try {
     if(process.env.NODE_ENV === "test"){
       await User.sync({ force : true });
