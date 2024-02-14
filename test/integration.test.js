@@ -1,8 +1,25 @@
-const request = require('supertest');
 import app from '../src/api/v1/index.js';
 import server from '../server.js';
+import { sequelize } from '../src/api/v1/config/dbConfig.js';
+const request = require('supertest');
 
-describe('Integration Testing', () => {
+describe('Integration Testing',() => {
+
+    beforeAll(async () => {
+        // Function to wait for a specified duration
+        const waitFor = (ms) => new Promise(resolve => setTimeout(resolve, ms));
+    
+        const waitForDbStatus = async () => {
+            while (global.db_status !== true) {
+                console.log('Waiting for db_status to become true...');
+                await waitFor(1000); 
+            }
+        };
+    
+        await waitForDbStatus(); // Wait until global.db_status becomes true
+        console.log('db_status is true, continuing with tests...');
+    });
+    
     
     test('DB Up - Should return a successful response (status code 200)', async () => {
       const response = await request(app).get('/healthz');
@@ -58,11 +75,5 @@ describe('Integration Testing', () => {
         expect(response.body.first_name).toEqual("newName");
         expect(response.body.last_name).toEqual("newLastName");
       });
-
-      afterAll(done => {
-       server.close();
-        done();
-      })
-      
       
 });
