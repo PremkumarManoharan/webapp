@@ -16,6 +16,8 @@ export class UserService {
                 throw new Error('User already exists with this email');
             } else if (!validateEmail(userData.username)) {
                 throw new Error('Invalid email format');
+            } else if(userData.first_name === "" || userData.last_name === "" || userData.password === "",userData.username == "" ){
+                throw new Error('cannot accept empty values');
             }
             const { first_name, last_name, password, username } = userData;
             const bCryptPassword = await bcrypt.hash(btoa(password), 10);
@@ -46,6 +48,9 @@ export class UserService {
     static async updateUser(userData, newData) {
         try {
             const user = await User.findOne({ where: { username: userData.username } });
+            if(newData.first_name === "" || newData.last_name === "" || newData.password ===""){
+                throw new Error('cannot accept empty values');
+            }
             if (user) {
                 if (user.first_name !== newData.first_name) {
                     user.update({
