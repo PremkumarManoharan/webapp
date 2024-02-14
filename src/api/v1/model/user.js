@@ -40,13 +40,11 @@ export const User = sequelize.define('User', {
   },
 
 }, {
-  //other model options
-  freezeTableName: true,
   updatedAt: 'account_updated',
   createdAt: 'account_created'
 });
 
-let db_status = false;
+
 
 
 const syncUserModel = async () => {
@@ -54,10 +52,10 @@ const syncUserModel = async () => {
   try {
     if(process.env.NODE_ENV === "test"){
       await User.sync({ force : true });
-      db_status = true;
+      global.db_status = true;
     }else{
       await User.sync({ alert: true });
-      db_status = true;
+      global.db_status = true;
     }
    
   } catch (error) {
@@ -67,16 +65,16 @@ const syncUserModel = async () => {
         await createDatabase();
         syncUserModel();
       } catch (error) {
-        console.error('Unable to connect to the database: waiting..Retry in 5sec');
+        console.log('Unable to connect to the database: waiting..Retry in 5sec');
         setTimeout(syncUserModel, 5000);
       }
     } else {
-      console.error('Unable to connect to the database: waiting..Retry in 5sec');
+      console.log('Unable to connect to the database: waiting..Retry in 5sec');
       setTimeout(syncUserModel, 5000);
     }
   }
 }
 
-if (!db_status) {
-  syncUserModel();
+if (!global.db_status){
+ syncUserModel();
 }
