@@ -52,8 +52,3 @@ jobs:
             
         - name: Run Integration tests
           run: npm test
-
-        - name: Stop the Server
-          run: |
-            SERVER_PID=$(lsof -i:3000 -t)
-            sudo kill $SERVER_PID
