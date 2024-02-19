@@ -1,0 +1,12 @@
+[Unit]
+Description=CSYE 6225 App
+After=network.target
+
+[Service]
+Type=simple
+User=csye6225
+ExecStart=/usr/bin/node /home/centos/app/server.js
+Restart=on-failure
+
+[Install]
+WantedBy=multi-user.target
