@@ -29,6 +29,7 @@ source "googlecompute" "webapp-source" {
   source_image_family = "centos-stream-8"
   ssh_username        = "centos"
   zone                = "us-east1-b"
+  image_family        = "csye6225-webapp"
 }
 
 build {
