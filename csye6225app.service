@@ -5,7 +5,8 @@ After=network.target
 [Service]
 Type=simple
 User=csye6225
-ExecStart=/usr/bin/node /app/server.js
+EnvironmentFile=/opt/app/.env
+ExecStart=/usr/bin/node /opt/app/server.js
 Restart=on-failure
 
 [Install]

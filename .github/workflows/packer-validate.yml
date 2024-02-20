@@ -1,0 +1,39 @@
+name: Packer-Validate-Check
+
+on:
+  pull_request:
+    types:
+      - opened
+      - synchronize
+
+jobs:
+  packer-validate:
+        runs-on: ubuntu-latest
+        strategy:
+            matrix:
+                node-version: [21.6.1]
+        steps:
+        - name: Update Ubuntu
+          run: sudo apt update
+
+        - uses: actions/checkout@v2
+        - name: Use Node.js ${{ matrix.node-version }}
+          uses: actions/setup-node@v2
+          with:
+            node-version: ${{ matrix.node.version }}
+
+        - name: Setup `packer`
+          uses: hashicorp/setup-packer@main
+
+
+        - name: Run `packer init`
+          run: "packer init ./packer/appBuildImage.pkr.hcl"
+        
+        - name: Run `packer validate`
+          run: "packer validate -syntax-only ./packer/appBuildImage.pkr.hcl"
+        
+#packer build -var 'PG_USER=serviceaccount' -var 'PG_PASSWORD=12345' -var 'PG_DB=webapp' -var 'PG_HOST=localhost' packer/appBuildImage.pkr.hcl
+# - name: Run packer fmt
+#   run: |
+#     packer fmt -check
+#     git diff --exit-code || (echo "Packer template is not formatted. Please run 'packer fmt' locally and commit the changes." && exit 1)

@@ -1,8 +1,7 @@
 #!/bin/bash
 
-
 # Create the .env file and write the environment variables to it
-cd ~/app/ || exit
+cd /opt/app/ || exit
 cat << INNER_EOF > .env
 PG_USER=$PG_USER
 PG_PASSWORD=$PG_PASSWORD
