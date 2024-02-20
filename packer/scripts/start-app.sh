@@ -1,4 +1,4 @@
 #!/bin/bash
 #install dependencies
-cd ~/app/ || exit
+cd /opt/app || exit
 npm start
