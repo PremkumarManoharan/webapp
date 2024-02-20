@@ -31,7 +31,7 @@ jobs:
         
         - name: Run packer fmt
           run: |
-            packer fmt -check
+            packer fmt /packer
             git diff --exit-code || (echo "Packer template is not formatted. Please run 'packer fmt' locally and commit the changes." && exit 1)
         
         
