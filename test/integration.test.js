@@ -72,8 +72,8 @@ describe('Integration Testing',() => {
           .get('/v1/user/self')
           .auth('newUser@example.com', 'password123')
 
-        expect(response.body.first_name).toEqual("newName");
-        expect(response.body.last_name).toEqual("newLastName");
+        expect(response.body.first_name).toEqual("newame");
+        expect(response.body.last_name).toEqual("newastName");
       });
       
 });
