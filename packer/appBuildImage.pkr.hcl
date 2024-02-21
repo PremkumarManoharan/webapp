@@ -2,55 +2,28 @@ packer {
   required_plugins {
     googlecompute = {
       source  = "github.com/hashicorp/googlecompute"
-      version = ">=1"
+      version = ">= 1.0.0, < 2.0.0"
     }
   }
 }
 
-
-
-variable "PG_USER" {
-  type = string
-}
-variable "PG_PASSWORD" {
-  type = string
-
-}
-variable "PG_DB" {
-  type = string
-}
-variable "PG_HOST" {
-  type = string
-}
-
-
 source "googlecompute" "webapp-source" {
-  project_id          = "csye-6225-dev-413816"
-  source_image_family = "centos-stream-8"
-  ssh_username        = "centos"
-  zone                = "us-east1-b"
-  image_family        = "csye6225-webapp"
+  project_id          = var.source.project_id
+  source_image_family = var.source.source_image_family
+  ssh_username        = var.source.ssh_username
+  zone                = var.source.zone
+  image_family        = var.source.image_family
 }
 
 build {
-  sources = ["sources.googlecompute.webapp-source"]
+  sources = var.sources
   provisioner "file" {
-    source      = "build.zip"
-    destination = "/tmp/build.zip"
+    source      = var.file-provisioner.source
+    destination = var.file-provisioner.destination
   }
 
   provisioner "shell" {
-    scripts = [
-      "packer/scripts/update-packages.sh",
-      "packer/scripts/install-required-packages.sh",
-      "packer/scripts/install-database.sh",
-      "packer/scripts/start-setup-database.sh",
-      "packer/scripts/copy-unzip-webapp-src.sh",
-      "packer/scripts/create-env-file.sh",
-      "packer/scripts/install-dependencies.sh",
-      "packer/scripts/create-csye6225-user.sh",
-      "packer/scripts/setup-systemd.sh"
-    ]
+    scripts = var.shell-provisioner.scripts
     environment_vars = [
       "PG_USER=${var.PG_USER}",
       "PG_PASSWORD=${var.PG_PASSWORD}",
