@@ -1,12 +1,13 @@
 name: Packer-Build
 
 on:
-  push:
-    branches:
-      - 'main'
+  pull_request:
+    types: 
+      - closed
 
 jobs:
   packer-build:
+        if: ${{ github.event.pull_request.merged}}
         runs-on: ubuntu-latest
         steps:
         - name: Update Ubuntu
