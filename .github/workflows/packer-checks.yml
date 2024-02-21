@@ -25,8 +25,8 @@ jobs:
         
         - name: Run packer fmt
           run: |
-            packer fmt packer/appBuildImage.pkr.hcl
+            packer fmt packer/
             git diff --exit-code || (echo "Packer template is not formatted. Please run 'packer fmt' locally and commit the changes." && exit 1)
         
         - name: Run `packer validate`
-          run: "packer validate -syntax-only ./packer/appBuildImage.pkr.hcl"
+          run: packer validate -syntax-only ./packer

@@ -36,6 +36,13 @@ jobs:
           run: "packer init ./packer/appBuildImage.pkr.hcl"
         
         - name: Run packer build
-          run: packer build -var 'PG_USER=${{ secrets.PG_USER }}' -var 'PG_PASSWORD=${{ secrets.PG_PASSWORD }}' -var 'PG_DB=${{ secrets.PG_DB }}' -var 'PG_HOST=${{ secrets.PG_HOST }}' packer/appBuildImage.pkr.hcl
+          run: |
+            packer build \
+              -var-file=packer/variables.pkrvars.hcl \ 
+              -var "PG_USER=${{ secrets.PG_USER }}" \
+              -var "PG_PASSWORD=${{ secrets.PG_PASSWORD }}" \
+              -var "PG_DB=${{ secrets.PG_DB }}" \
+              -var "PG_HOST=${{ secrets.PG_HOST }}" \
+              packer/
         
         
