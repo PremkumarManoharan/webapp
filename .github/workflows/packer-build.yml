@@ -31,6 +31,42 @@ jobs:
         - name: Zip All Content
           run: |
             zip -r build.zip .
+        
+        - name: Use Node.js ${{ matrix.node-version }}
+          uses: actions/setup-node@v2
+          with:
+            node-version: ${{ matrix.node.version }}
+
+        - name: Install PostgresSQL
+          run: sudo apt install -y postgresql-14 postgresql-client-14
+        
+        - name: Enable postgresql service
+          run: sudo systemctl enable postgresql
+
+        - name: Start PostgreSQL database
+          run: sudo systemctl start postgresql
+        
+        - name: Create a service account (postgres user)
+          run: |
+            sudo -u postgres psql -c "CREATE USER ${{ secrets.PG_USER }} WITH PASSWORD '${{ secrets.PG_PASSWORD }}';"
+            sudo -u postgres psql -c "ALTER USER ${{ secrets.PG_USER }} CREATEDB;"
+      
+        
+        - name: Create the .env file and write the environment variables to it
+          run: |
+            cat << EOF > .env
+            PG_USER=${{ secrets.PG_USER }}
+            PG_PASSWORD=${{ secrets.PG_PASSWORD }}
+            PG_DB=${{ secrets.PG_DB }}
+            PG_HOST=${{ secrets.PG_HOST }}
+            EOF
+            echo ".env file created with the specified content."
+            
+        - name: Install node dependencies
+          run: npm install
+            
+        - name: Run Integration tests
+          run: npm test
 
         - name: Run packer init
           run: "packer init ./packer/appBuildImage.pkr.hcl"
