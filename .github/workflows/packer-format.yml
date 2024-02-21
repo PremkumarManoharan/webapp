@@ -1,4 +1,4 @@
-name: Packer-Format-Check
+name: Packer-Format-validate
 
 on:
   pull_request:
@@ -7,20 +7,14 @@ on:
       - synchronize
 
 jobs:
-  packer-format:
+  packer-format-validate:
         runs-on: ubuntu-latest
-        strategy:
-            matrix:
-                node-version: [21.6.1]
+        
         steps:
         - name: Update Ubuntu
           run: sudo apt update
 
         - uses: actions/checkout@v2
-        - name: Use Node.js ${{ matrix.node-version }}
-          uses: actions/setup-node@v2
-          with:
-            node-version: ${{ matrix.node.version }}
 
         - name: Setup packer
           uses: hashicorp/setup-packer@main
@@ -34,4 +28,5 @@ jobs:
             packer fmt packer/appBuildImage.pkr.hcl
             git diff --exit-code || (echo "Packer template is not formatted. Please run 'packer fmt' locally and commit the changes." && exit 1)
         
-        
+        - name: Run `packer validate`
+          run: "packer validate -syntax-only ./packer/appBuildImage.pkr.hcl"
