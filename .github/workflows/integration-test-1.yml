@@ -5,7 +5,9 @@ on:
     types:
       - opened
       - synchronize
-      - closed
+  push:
+    branches:
+      - 'main'
 
 jobs:
   integration-tests:
