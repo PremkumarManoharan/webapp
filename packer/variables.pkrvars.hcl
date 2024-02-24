@@ -20,10 +20,7 @@ shell-provisioner = {
   scripts = [
     "packer/scripts/update-packages.sh",
     "packer/scripts/install-required-packages.sh",
-    "packer/scripts/install-database.sh",
-    "packer/scripts/start-setup-database.sh",
     "packer/scripts/copy-unzip-webapp-src.sh",
-    "packer/scripts/create-env-file.sh",
     "packer/scripts/install-dependencies.sh",
     "packer/scripts/create-csye6225-user.sh",
     "packer/scripts/setup-systemd.sh"
