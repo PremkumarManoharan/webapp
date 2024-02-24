@@ -1,12 +1,12 @@
 [Unit]
 Description=CSYE 6225 App
 After=network.target
-ConditionPathExists=/opt/app/start.txt
 
 [Service]
 Type=simple
 User=csye6225
 EnvironmentFile=/opt/app/.env
+ExecStartPre=/bin/bash -c 'while [ ! -f /opt/app/start.txt ]; do echo "Waiting for file to exist..."; sleep 1; done'
 ExecStart=/usr/bin/node /opt/app/server.js
 Restart=always
 RestartSec=3
