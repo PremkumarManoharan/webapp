@@ -24,11 +24,5 @@ build {
 
   provisioner "shell" {
     scripts = var.shell-provisioner.scripts
-    environment_vars = [
-      "PG_USER=${var.PG_USER}",
-      "PG_PASSWORD=${var.PG_PASSWORD}",
-      "PG_DB=${var.PG_DB}",
-      "PG_HOST=${var.PG_HOST}"
-    ]
   }
 }
