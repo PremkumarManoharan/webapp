@@ -19,7 +19,10 @@ jobs:
         - name: Setup packer
           uses: hashicorp/setup-packer@main
 
-
+        - name: Zip All Content
+          run: |
+            zip -r build.zip .
+        
         - name: Run packer init
           run: "packer init ./packer/appBuildImage.pkr.hcl"
         
@@ -29,4 +32,4 @@ jobs:
             git diff --exit-code || (echo "Packer template is not formatted. Please run 'packer fmt' locally and commit the changes." && exit 1)
         
         - name: Run `packer validate`
-          run: packer validate -syntax-only ./packer
+          run: packer validate ./packer
