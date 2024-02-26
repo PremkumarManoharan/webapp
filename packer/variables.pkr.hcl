@@ -1,16 +1,3 @@
-variable "PG_USER" {
-  type = string
-}
-variable "PG_PASSWORD" {
-  type = string
-
-}
-variable "PG_DB" {
-  type = string
-}
-variable "PG_HOST" {
-  type = string
-}
 
 variable "source" {
   type = object({
