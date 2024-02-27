@@ -16,7 +16,7 @@ export class UserService {
                 throw new Error('User already exists with this email');
             } else if (!validateEmail(userData.username)) {
                 throw new Error('Invalid email format');
-            } else if(userData.first_name === "" || userData.last_name === "" || userData.password === "",userData.username == "" ){
+            } else if(userData.first_name === "" || userData.last_name === "" || userData.password === "" || userData.username === "" ){
                 throw new Error('cannot accept empty values');
             }
             const { first_name, last_name, password, username } = userData;
