@@ -12,7 +12,7 @@ source "googlecompute" "webapp-source" {
   source_image_family = var.source.source_image_family
   ssh_username        = var.source.ssh_username
   zone                = var.source.zone
-  image_family        = var.source.image_family
+        image_family        = var.source.image_family
 }
 
 build {
