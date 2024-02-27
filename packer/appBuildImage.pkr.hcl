@@ -8,11 +8,11 @@ packer {
 }
 
 source "googlecompute" "webapp-source" {
-  project_id          = var.source.project_id
+  project_id          = var.source123.project_id
   source_image_family = var.source.source_image_family
   ssh_username        = var.source.ssh_username
   zone                = var.source.zone
-        image_family        = var.source.image_family
+  image_family        = var.source.image_family
 }
 
 build {
