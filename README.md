@@ -62,4 +62,4 @@ Before getting started, make sure you have the following installed on your syste
 ## Additional Notes
 
 - Ensure that the PostgreSQL server is running before starting application.
-- The application is now ready to handle requests. Make sure to test thoroughly using Postman or a similar tool.
+- The application is now ready to handle requests.
