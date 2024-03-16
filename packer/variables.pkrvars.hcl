@@ -23,6 +23,7 @@ shell-provisioner = {
     "packer/scripts/copy-unzip-webapp-src.sh",
     "packer/scripts/install-dependencies.sh",
     "packer/scripts/create-csye6225-user.sh",
+    "packer/scripts/install-ops-agent.sh"
     "packer/scripts/setup-systemd.sh"
   ]
 }
