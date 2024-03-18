@@ -6,6 +6,6 @@ export const logger = winston.createLogger({
   levels: winston.config.npm.levels,
   defaultMeta: { time: now.toISOString() },
   transports: [
-    new winston.transports.File({ filename: 'webapp/webapp.log' }),
+    new winston.transports.File({ filename: '/var/log/webapp/webapp.log' }),
   ],
 });
