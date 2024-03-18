@@ -14,11 +14,6 @@ file-provisioner-build-file = {
   source      = "build.zip"
   destination = "/tmp/build.zip"
 }
-file-provisioner-ops-agent-config = {
-  source      = "ops-agent-config.yaml"
-  destination = "/etc/google-cloud-ops-agent/config.yaml"
-}
-
 
 shell-provisioner = {
   scripts = [
@@ -28,7 +23,7 @@ shell-provisioner = {
     "packer/scripts/install-dependencies.sh",
     "packer/scripts/create-csye6225-user.sh",
     "packer/scripts/install-ops-agent.sh",
-    "packer/scripts/copy-ops-agent-config.sh"
+    "packer/scripts/copy-ops-agent-config.sh",
     "packer/scripts/setup-systemd.sh"
   ]
 }
