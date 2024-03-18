@@ -5,12 +5,13 @@ on:
     types:
       - opened
       - synchronize
-
+env:
+  NODE_ENV: test
 jobs:
   build:
 
     runs-on: ubuntu-latest
-
+    
     strategy:
       matrix:
         node-version: [21.6.1]
