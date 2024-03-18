@@ -2,7 +2,7 @@ import winston from 'winston';
 
 const now = new Date();
 
-const logLocation = "";
+let logLocation = "";
 if(process.env.NODE_ENV === "test"){
     logLocation = 'webapp.log'
 }else{
