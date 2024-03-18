@@ -1,10 +1,11 @@
 import Sequelize from 'sequelize';
 import dotenv from "dotenv";
 import Client from 'pg/lib/client.js';
+import { logger } from './loggerConfig.js';
 
 dotenv.config()
 
-console.log("Environment Variables are set");
+logger.info("Environment Variables are configured");
 
 export const sequelize = new Sequelize(
     process.env.PG_DB,
@@ -27,9 +28,10 @@ export const createDatabase = async () => {
     try {
       await client.connect(); // Connect to the default 'postgres' database
       await client.query(`CREATE DATABASE "${process.env.PG_DB}"`); // Create new database
-      console.log(`Database ${process.env.PG_DB} created successfully.`);
+      logger.info(`Database ${process.env.PG_DB} created successfully.`);
     } catch (error) {
-      console.error(`Failed to create database ${process.env.PG_DB}:`, error);
+      logger.error(`Failed to create database ${process.env.PG_DB}:`, error);
+      process.exit();
     } finally {
       await client.end(); 
     }

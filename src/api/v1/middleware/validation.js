@@ -1,6 +1,6 @@
+
 export const validatePostAttributes = (requiredAttributes) => {
     return (req, res, next) => {
-        console.log(req.body);
         const receivedAttributes = Object.keys(req.body);
         const missingAttributes = requiredAttributes.filter(attr => !receivedAttributes.includes(attr));
         if (missingAttributes.length > 0) {
@@ -30,7 +30,6 @@ export const validatePutAttributes = (acceptedAttributes) => {
 
 export const checkJsonSyntax = (err, req, res, next) => {
     if (err instanceof SyntaxError && err.status === 400 && 'body' in err) {
-        console.error(err);
         return res.status(400).end(); // Bad request
     }
     next();
