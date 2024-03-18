@@ -6,7 +6,7 @@ let logLocation = "";
 if(process.env.NODE_ENV === "test"){
     logLocation = 'webapp.log'
 }else{
-    logLocation = '/var/log/webapp.log'
+    logLocation = '/tmp/webapp.log'
 }
 
 export const logger = winston.createLogger({
