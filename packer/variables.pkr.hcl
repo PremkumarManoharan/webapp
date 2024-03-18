@@ -25,9 +25,3 @@ variable "file-provisioner-build-file" {
   })
 }
 
-variable "file-provisioner-ops-agent-config" {
-  type = object({
-    source      = string
-    destination = string
-  })
-}

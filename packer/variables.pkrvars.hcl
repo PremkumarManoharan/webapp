@@ -28,6 +28,7 @@ shell-provisioner = {
     "packer/scripts/install-dependencies.sh",
     "packer/scripts/create-csye6225-user.sh",
     "packer/scripts/install-ops-agent.sh",
+    "packer/scripts/copy-ops-agent-config.sh"
     "packer/scripts/setup-systemd.sh"
   ]
 }

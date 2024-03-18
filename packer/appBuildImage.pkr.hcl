@@ -21,10 +21,6 @@ build {
     source      = var.file-provisioner-build-file.source
     destination = var.file-provisioner-build-file.destination
   }
-  provisioner "file" {
-    source      = var.file-provisioner-ops-agent-config.source
-    destination = var.file-provisioner-ops-agent-config.destination
-  }
 
   provisioner "shell" {
     scripts = var.shell-provisioner.scripts
