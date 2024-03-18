@@ -10,9 +10,13 @@ source = {
 sources = ["sources.googlecompute.webapp-source"]
 
 
-file-provisioner = {
+file-provisioner-build-file = {
   source      = "build.zip"
   destination = "/tmp/build.zip"
+}
+file-provisioner-ops-agent-config = {
+  source      = "ops-agent-config.yaml"
+  destination = "/etc/google-cloud-ops-agent/config.yaml"
 }
 
 

@@ -18,7 +18,14 @@ variable "shell-provisioner" {
     scripts = list(string)
   })
 }
-variable "file-provisioner" {
+variable "file-provisioner-build-file" {
+  type = object({
+    source      = string
+    destination = string
+  })
+}
+
+variable "file-provisioner-ops-agent-config" {
   type = object({
     source      = string
     destination = string
