@@ -1,4 +1,5 @@
 import { sequelize } from "../config/dbConfig.js"
+import { logger } from "../config/loggerConfig.js";
 
 //Check connection with DB and return 200 if ok or else 503
 export const getHealthz = async (req, res) => {
@@ -8,7 +9,7 @@ export const getHealthz = async (req, res) => {
     }).catch((e) => {
         res.header('Cache-Control', 'no-cache');
         res.status(503).end();
-        console.log(e);
+        logger.error(e);
     })
 };
 

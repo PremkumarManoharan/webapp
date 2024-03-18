@@ -1,5 +1,6 @@
 import bcrypt from 'bcrypt';
 import {User} from "../model/user.js"
+import { logger } from '../config/loggerConfig.js';
 
 
 export class AuthenticationService {
@@ -17,7 +18,7 @@ export class AuthenticationService {
                 } else if (!(await bcrypt.compare(btoa(user.password), existingUser.password))) {
                     throw new Error('Invalid Password');
                 } else {
-                    console.log(await bcrypt.compare(user.password, existingUser.password));
+                    logger.info(await bcrypt.compare(user.password, existingUser.password));
                 }
             }
         }
@@ -32,7 +33,6 @@ export class AuthenticationService {
             username: credentials[0],
             password: credentials[1]
         }
-        console.log(user);
         return user;
     }
 }

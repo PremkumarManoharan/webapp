@@ -1,3 +1,4 @@
+import { logger } from "../config/loggerConfig.js";
 import { AuthenticationService } from "../services/basicAuthService.js";
 import { UserService } from "../services/userService.js"
 
@@ -8,7 +9,7 @@ export const createUser = async (req, res) => {
         res.status(201).send(user);
     }
     catch (error) {
-        console.log(error.message);
+        logger.error(error.message);
         res.status(400).end();
     }
 };
@@ -20,7 +21,7 @@ export const getUser = async (req, res) => {
         const user = await UserService.getUser(authUser);
         res.status(200).send(user);
     } catch (error) {
-        console.log(error.message);
+        logger.error(error.message);
         res.status(401).end();
     }
 };
@@ -31,7 +32,7 @@ export const updateUser = async (req, res) => {
         await UserService.updateUser(authUser, req.body);
         res.status(204).end();
     } catch (error) {
-        console.log(error.message);
+        logger.error(error.message);
         res.status(400).end();
     }
 };
