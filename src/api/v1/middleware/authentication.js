@@ -9,6 +9,7 @@ export const basicAuth = async (req, res, next) => {
         logger.info("Authentication completed");
         next();
     } catch (error) {
+        logger.error(error.message);
         res.status(401).end();
     }
 };

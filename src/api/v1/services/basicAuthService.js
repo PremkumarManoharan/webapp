@@ -14,11 +14,11 @@ export class AuthenticationService {
                 const user = await this.getUserfromAuthHeader(req);
                 const existingUser = await User.findOne({ where: { username: user.username } });
                 if (!(existingUser)) {
-                    throw new Error('Invalid Username');
+                    throw new Error('Invalid Username '+user.username);
                 } else if (!(await bcrypt.compare(btoa(user.password), existingUser.password))) {
-                    throw new Error('Invalid Password');
+                    throw new Error('Invalid Password for '+existingUser.username);
                 } else {
-                    logger.info(await bcrypt.compare(user.password, existingUser.password));
+                    logger.error("Validation Failed for "+existingUser.username);
                 }
             }
         }
