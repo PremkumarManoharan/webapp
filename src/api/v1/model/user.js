@@ -67,11 +67,11 @@ const syncUserModel = async () => {
         await createDatabase();
         syncUserModel();
       } catch (error) {
-        logger.info('Unable to connect to the database: waiting..Retry in 5sec');
+        logger.warn('Unable to connect to the database: waiting..Retry in 5sec');
         setTimeout(syncUserModel, 5000);
       }
     } else {
-      logger.info('Unable to connect to the database: waiting..Retry in 5sec');
+      logger.warn('Unable to connect to the database: waiting..Retry in 5sec');
       setTimeout(syncUserModel, 5000);
     }
   }

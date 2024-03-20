@@ -8,15 +8,13 @@ if(process.env.NODE_ENV === "test"){
 }else{
     logLocation = '/tmp/webapp.log'
 }
-
 export const logger = winston.createLogger({
   format: winston.format.json(),
-  levels: winston.config.npm.levels,
-  defaultMeta: { time: (now.toISOString()).slice(0, -5) + "Z" },
+  level: 'debug',
+  defaultMeta: { time: (now.toISOString()).slice(0, -5) + "Z" }, //removing milli seconds
   transports: [
     new winston.transports.File({ filename: logLocation }),
   ],
 });
 
-
-
+logger.warn('New version of nodejs is available');

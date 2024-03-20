@@ -1,3 +1,4 @@
+import { logger } from "../config/loggerConfig.js";
 import {User} from "../model/user.js"
 import bcrypt from 'bcrypt';
 
@@ -27,6 +28,7 @@ export class UserService {
                 first_name: first_name,
                 last_name: last_name
             });
+            logger.debug(user.username+" User created Successfully");
             delete user.dataValues.password;
             return user;
         } catch (error) {
@@ -38,13 +40,13 @@ export class UserService {
         try {
             const existingUser = await User.findOne({ where: { username: userData.username } });
             delete existingUser.dataValues.password;
+            logger.debug(existingUser.username+" User retrieved Successfully");
             return existingUser;
         } catch (error) {
             throw new Error(error.message);
         }
     }
 
-///TODO: CHECK FOR EMPTY Values before updating
     static async updateUser(userData, newData) {
         try {
             const user = await User.findOne({ where: { username: userData.username } });
@@ -56,17 +58,20 @@ export class UserService {
                     user.update({
                         first_name: newData.first_name
                     });
+                    logger.debug(user.username+" User first name updated Successfully");
                 }
                 if (user.last_name !== newData.last_name) {
                     user.update({
                         last_name: newData.last_name
                     });
+                    logger.debug(user.username+" User lastname name updated Successfully");
                 }
                 if (newData.password !== undefined && !(await bcrypt.compare(btoa(newData.password), user.password))) {
                     const bCryptPassword = await bcrypt.hash(btoa(newData.password), 10);
                     user.update({
                         password: bCryptPassword
                     });
+                    logger.debug(user.username+" User password updated Successfully");
                 }
 
             } else {
