@@ -12,7 +12,7 @@ if(process.env.NODE_ENV === "test"){
 export const logger = winston.createLogger({
   format: winston.format.json(),
   levels: winston.config.npm.levels,
-  defaultMeta: { time: now.toISOString() },
+  defaultMeta: { time: (now.toISOString()).slice(0, -5) + "Z" },
   transports: [
     new winston.transports.File({ filename: logLocation }),
   ],
