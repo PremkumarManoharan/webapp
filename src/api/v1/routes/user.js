@@ -26,6 +26,8 @@ userRouter.route('/self').put(
 
 userRouter.route('/verify').get(userController.verifyUser);
 
+userRouter.route('/emailSent').get(userController.emailSent);
+
 userRouter.use((req, res, next) => {
     res.status(404).end();
 });

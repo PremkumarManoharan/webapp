@@ -26,6 +26,18 @@ export const getUser = async (req, res) => {
     }
 };
 
+export const emailSent = async (req, res) => {
+   
+    try {
+        const username = req.query.username
+        const user = await UserService.emailSent(username);
+        res.status(200).end();
+    } catch (error) {
+        logger.error(error.message);
+        res.status(400).end();
+    }
+};
+
 export const updateUser = async (req, res) => {
     try {
         const authUser = await AuthenticationService.getUserfromAuthHeader(req);
@@ -36,6 +48,7 @@ export const updateUser = async (req, res) => {
         res.status(400).end();
     }
 };
+
 
 
 export const verifyUser = async (req, res) => {

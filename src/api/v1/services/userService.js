@@ -79,6 +79,21 @@ export class UserService {
         }
     }
 
+    static async emailSent(username) {
+        try {
+            const user = await User.findOne({ where: { username: username } });
+            const now = new Date();
+            const twoMinutesInMilliseconds = 2 * 60 * 1000; // Convert 2 minutes to milliseconds
+            const validity = new Date(now.getTime() + twoMinutesInMilliseconds); // Add 2 minutes to 'now'
+            user.update({
+                tokenValidity: validity
+            });
+            return user;
+        } catch (error) {
+            throw new Error(error.message);
+        }
+    }
+
     static async updateUser(userData, newData) {
         try {
             const user = await User.findOne({ where: { username: userData.username } });
