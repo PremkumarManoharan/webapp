@@ -37,6 +37,46 @@ export const updateUser = async (req, res) => {
     }
 };
 
+
+export const verifyUser = async (req, res) => {
+    try {
+        const token = req.query.token;
+        const username = req.query.username
+        await UserService.updateVerifiedUser(username, token);
+        const htmlContent = `
+        <html>
+          <head>
+            <title>Email Verification</title>
+          </head>
+          <body>
+            <h1>Email Verified Successfully!</h1>
+            <p>Your email has been successfully verified. You can now access all the apis.</p>
+          </body>
+        </html>
+      `;
+    
+      // Send the HTML content as the response
+      res.send(htmlContent);
+    } catch (error) {
+        logger.error(error.message);
+        const htmlContent = `
+        <html>
+          <head>
+            <title>Email Verification</title>
+          </head>
+          <body>
+            <h1>Link Expired</h1>
+            <p>Your email is not verified</p>
+          </body>
+        </html>
+      `;
+        res.status(410).end();
+    }
+};
+
+
+
+
 export const checkQueryParam = (req, res, next) => {
     if (Object.keys(req.query).length > 0) {
         return res.status(400).end();

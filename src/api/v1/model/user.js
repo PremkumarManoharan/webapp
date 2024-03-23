@@ -39,6 +39,16 @@ export const User = sequelize.define('User', {
       notEmpty: true,
     },
   },
+  verified: {
+    type: DataTypes.BOOLEAN,
+    defaultValue: false
+  },
+  token: {
+    type: DataTypes.STRING,
+  },
+  tokenValidity:{
+    type: DataTypes.DATE
+  }
 
 }, {
   updatedAt: 'account_updated',
