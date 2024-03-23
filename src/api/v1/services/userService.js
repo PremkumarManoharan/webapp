@@ -1,6 +1,8 @@
 import { logger } from "../config/loggerConfig.js";
 import {User} from "../model/user.js"
 import bcrypt from 'bcrypt';
+import { publishMessage } from "./sendEmailService.js";
+import crypto from 'crypto';
 
 function validateEmail(email) {
     const regex = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/;
@@ -21,15 +23,21 @@ export class UserService {
                 throw new Error('cannot accept empty values');
             }
             const { first_name, last_name, password, username } = userData;
+            const token = crypto.randomBytes(20).toString('hex');
             const bCryptPassword = await bcrypt.hash(btoa(password), 10);
             const user = await User.create({
                 username: username,
                 password: bCryptPassword,
                 first_name: first_name,
-                last_name: last_name
+                last_name: last_name,
+                token: token
             });
             logger.debug(user.username+" User created Successfully");
             delete user.dataValues.password;
+            delete user.dataValues.verified;
+            delete user.dataValues.tokenValidity;
+            publishMessage("csye6225-send-verify-email",user.dataValues);
+            delete user.dataValues.token;
             return user;
         } catch (error) {
             throw new Error(error.message);
@@ -41,6 +49,27 @@ export class UserService {
             const existingUser = await User.findOne({ where: { username: userData.username } });
             delete existingUser.dataValues.password;
             logger.debug(existingUser.username+" User retrieved Successfully");
+            return existingUser;
+        } catch (error) {
+            throw new Error(error.message);
+        }
+    }
+
+    static async updateVerifiedUser(username, token) {
+        try {
+            const user = await User.findOne({ where: { username: username } });
+            const now = new Date();
+            if(user.tokenValidity > now){
+                if(token === user.token){
+                    user.update({
+                        verified: true
+                    });
+                }else{
+                    throw new Error("Token invalid");
+                }
+            }else{
+                throw new Error("Link expired");
+            }
             return existingUser;
         } catch (error) {
             throw new Error(error.message);

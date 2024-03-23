@@ -24,6 +24,8 @@ userRouter.route('/self').put(
     validatePutAttributes(['password', 'first_name', 'last_name'])
     ],userController.updateUser);
 
+userRouter.route('/verify').get(userController.verifyUser);
+
 userRouter.use((req, res, next) => {
     res.status(404).end();
 });
