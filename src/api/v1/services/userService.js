@@ -59,6 +59,7 @@ export class UserService {
         try {
             const user = await User.findOne({ where: { username: username } });
             const now = new Date();
+
             if(user.tokenValidity > now){
                 if(token === user.token){
                     user.update({
@@ -68,9 +69,11 @@ export class UserService {
                     throw new Error("Token invalid");
                 }
             }else{
+                logger.warn("Validity: "+user.tokenValidity);
+                logger.warn("Current Time: "+now);
                 throw new Error("Link expired");
             }
-            return existingUser;
+            return user;
         } catch (error) {
             throw new Error(error.message);
         }

@@ -70,7 +70,7 @@ export const verifyUser = async (req, res) => {
           </body>
         </html>
       `;
-        res.status(410).end();
+        res.status(410).send(htmlContent);
     }
 };
 
