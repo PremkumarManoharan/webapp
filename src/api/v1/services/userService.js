@@ -48,12 +48,25 @@ export class UserService {
         try {
             const existingUser = await User.findOne({ where: { username: userData.username } });
             delete existingUser.dataValues.password;
+            delete existingUser.dataValues.token
+            delete existingUser.dataValues.verified
+            delete existingUser.dataValues.tokenValidity
             logger.debug(existingUser.username+" User retrieved Successfully");
             return existingUser;
         } catch (error) {
             throw new Error(error.message);
         }
     }
+
+    static async isVerified(userData) {
+        try{
+            const existingUser = await User.findOne({ where: { username: userData.username } });
+            return existingUser;
+        }catch(error){
+            throw new Error(error.message)
+        }
+        
+    };
 
     static async updateVerifiedUser(username, token) {
         try {

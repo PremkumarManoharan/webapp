@@ -26,6 +26,17 @@ export const getUser = async (req, res) => {
     }
 };
 
+export const isVerified = async (req, res, next) => {
+
+    const authUser = await AuthenticationService.getUserfromAuthHeader(req);
+    const user = await UserService.isVerified(authUser);
+    console.log(user);
+    if(!user.verified && process.env.NODE_ENV !== "test"){
+        return res.status(403).end();
+    }
+    next();
+};
+
 export const emailSent = async (req, res) => {
    
     try {

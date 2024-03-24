@@ -14,11 +14,19 @@ userRouter.route('/').post(
     validatePostAttributes(['username', 'password', 'first_name', 'last_name'])
     ],userController.createUser);
 
-userRouter.route('/self').get([checkDB,basicAuth,userController.checkQueryParam],userController.getUser);
+userRouter.route('/self').get(
+    [
+    userController.isVerified,
+    checkDB,
+    basicAuth,
+    userController.checkQueryParam
+],userController.getUser);
 
 
 userRouter.route('/self').put(
-    [checkDB,
+    [
+    userController.isVerified,
+    checkDB,
     basicAuth,
     userController.checkQueryParam,
     validatePutAttributes(['password', 'first_name', 'last_name'])
