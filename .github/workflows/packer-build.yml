@@ -68,6 +68,8 @@ jobs:
           run: sudo apt update
 
         - uses: actions/checkout@v2
+          with:
+            ref: ${{ github.event.inputs.commit_id }}
 
         - name: Setup packer
           uses: hashicorp/setup-packer@main
