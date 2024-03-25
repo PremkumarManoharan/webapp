@@ -4,6 +4,13 @@ on:
   pull_request:
     types: 
       - closed
+  workflow_dispatch:
+    inputs:
+      myCommit:
+        description: 'Commit SHA1'
+        required: true
+        default: 'undefined'
+        type: string
 
 jobs:
   integration-test:
