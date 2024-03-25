@@ -6,11 +6,10 @@ on:
       - closed
   workflow_dispatch:
     inputs:
-      myCommit:
-        description: 'Commit SHA1'
-        required: true
-        default: 'undefined'
-        type: string
+      commit_id:
+        description: 'Commit SHA to run the workflow on'
+        required: false
+        default: ''
 
 jobs:
   integration-test:
@@ -21,6 +20,8 @@ jobs:
             run: sudo apt update
   
           - uses: actions/checkout@v2
+            with:
+              ref: ${{ github.event.inputs.commit_id }}
 
           - name: Use Node.js ${{ matrix.node-version }}
             uses: actions/setup-node@v2
