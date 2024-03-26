@@ -8,7 +8,7 @@ logging:
   processors:
     my-app-processor:
       type: parse_json
-      time_key: time
+      time_key: timestamp
       time_format: "%Y-%m-%dT%H:%M:%SZ"
     change_severity:
       type: modify_fields
@@ -20,4 +20,3 @@ logging:
       default_pipeline:
         receivers: [my-app-receiver]
         processors: [my-app-processor,change_severity]
-#
