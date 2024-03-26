@@ -37,17 +37,6 @@ export const isVerified = async (req, res, next) => {
     next();
 };
 
-export const emailSent = async (req, res) => {
-   
-    try {
-        const username = req.query.username
-        const user = await UserService.emailSent(username);
-        res.status(200).end();
-    } catch (error) {
-        logger.error(error.message);
-        res.status(400).end();
-    }
-};
 
 export const updateUser = async (req, res) => {
     try {
@@ -78,8 +67,6 @@ export const verifyUser = async (req, res) => {
           </body>
         </html>
       `;
-    
-      // Send the HTML content as the response
       res.send(htmlContent);
     } catch (error) {
         logger.error(error.message);
@@ -89,8 +76,7 @@ export const verifyUser = async (req, res) => {
             <title>Email Verification</title>
           </head>
           <body>
-            <h1>Link Expired</h1>
-            <p>Your email is not verified</p>
+            <h1>${error.message}</h1>
           </body>
         </html>
       `;

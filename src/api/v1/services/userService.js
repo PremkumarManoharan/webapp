@@ -72,7 +72,9 @@ export class UserService {
         try {
             const user = await User.findOne({ where: { username: username } });
             const now = new Date();
-
+            if(user.verified){
+                throw new Error("User Already Verified");
+            }
             if(user.tokenValidity > now){
                 if(token === user.token){
                     user.update({
@@ -82,25 +84,8 @@ export class UserService {
                     throw new Error("Token invalid");
                 }
             }else{
-                logger.warn("Validity: "+user.tokenValidity);
-                logger.warn("Current Time: "+now);
                 throw new Error("Link expired");
             }
-            return user;
-        } catch (error) {
-            throw new Error(error.message);
-        }
-    }
-
-    static async emailSent(username) {
-        try {
-            const user = await User.findOne({ where: { username: username } });
-            const now = new Date();
-            const twoMinutesInMilliseconds = 2 * 60 * 1000; // Convert 2 minutes to milliseconds
-            const validity = new Date(now.getTime() + twoMinutesInMilliseconds); // Add 2 minutes to 'now'
-            user.update({
-                tokenValidity: validity
-            });
             return user;
         } catch (error) {
             throw new Error(error.message);
