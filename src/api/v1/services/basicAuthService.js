@@ -18,7 +18,7 @@ export class AuthenticationService {
                 } else if (!(await bcrypt.compare(btoa(user.password), existingUser.password))) {
                     throw new Error('Invalid Password for '+existingUser.username);
                 } else {
-                    logger.error("Validation Failed for "+existingUser.username);
+                    logger.info("Authentication completed "+existingUser.username);
                 }
             }
         }
