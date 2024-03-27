@@ -74,6 +74,9 @@ export class UserService {
         try {
             const user = await User.findOne({ where: { username: username } });
             const now = new Date();
+            if(!(user)){
+                throw new Error("User Not Exist");
+            }
             if(user.verified){
                 throw new Error("User Already Verified");
             }
