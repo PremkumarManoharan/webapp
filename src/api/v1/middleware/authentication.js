@@ -6,7 +6,6 @@ import { logger } from "../config/loggerConfig.js";
 export const basicAuth = async (req, res, next) => {
     try {
         const auth = await AuthenticationService.auth(req, res);
-        logger.info("Authentication completed");
         next();
     } catch (error) {
         logger.error(error.message);

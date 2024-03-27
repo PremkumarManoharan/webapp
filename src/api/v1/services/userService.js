@@ -36,7 +36,9 @@ export class UserService {
             delete user.dataValues.password;
             delete user.dataValues.verified;
             delete user.dataValues.tokenValidity;
-            publishMessage("csye6225-send-verify-email",user.dataValues);
+            if(process.env.NODE !== "test"){
+                publishMessage(process.env.TOPIC_EMAIL,user.dataValues);
+            }
             delete user.dataValues.token;
             return user;
         } catch (error) {
