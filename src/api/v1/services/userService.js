@@ -85,7 +85,7 @@ export class UserService {
                     user.update({
                         verified: true
                     });
-                    logger.info(existingUser.username+" User verified Successfully");
+                    logger.info(user.username+" User verified Successfully");
                 }else{
                     throw new Error("Token invalid");
                 }
