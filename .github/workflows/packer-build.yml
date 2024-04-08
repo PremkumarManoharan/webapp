@@ -117,12 +117,11 @@ jobs:
           run: |
             cat <<EOF > startup_script.sh
             #!/bin/bash
-            ENV_FILE="/opt/app/.env"
             
             # Check if .env file already exists
-            if [ ! -f "$ENV_FILE" ]; then
+            if [ ! -f "/opt/app/.env" ]; then
               # Create .env file
-              cat <<EOL > "$ENV_FILE"
+              cat <<EOL > "/opt/app/.env"
               PG_HOST=$(<dbhostname.txt)
               PG_USER=webapp
               PG_PASSWORD=$(<dbpassword.txt)
@@ -156,7 +155,8 @@ jobs:
         - name: Start Rolling Update
           run: |
               gcloud compute instance-groups managed rolling-action start-update "webapp-igm" \
-              --region="us-east1" --version template=${{ env.TEMPLATE_NAME }} --max-unavailable=1
+              --region="us-east1" --version template=projects/csye-6225-dev-413816/regions/us-east1/instanceTemplates/${{ env.TEMPLATE_NAME }} \
+              --max-unavailable=3
             
         - name: Wait Until Rolling update complete
           run: |
