@@ -144,7 +144,7 @@ jobs:
                 --machine-type="e2-medium" \
                 --image-family="csye6225-webapp" \
                 --image-project="csye-6225-dev-413816" \
-                --boot-disk-size=100GB \
+                --boot-disk-size=50GB \
                 --boot-disk-type="pd-balanced" \
                 --boot-disk-kms-key="projects/csye-6225-dev-413816/locations/us-east1/keyRings/my-key-ring-1/cryptoKeys/webapp-kms-key-1" \
                 --subnet="projects/csye-6225-dev-413816/regions/us-east1/subnetworks/webapp" \
