@@ -4,24 +4,16 @@ on:
   pull_request:
     types: 
       - closed
-  workflow_dispatch:
-    inputs:
-      commit_id:
-        description: 'Commit SHA to run the workflow on'
-        required: false
-        default: ''
 
 jobs:
   integration-test:
-        if: ${{ github.event.pull_request.merged || github.event_name == 'workflow_dispatch' }}
+        if: ${{github.event.pull_request.merged}}
         runs-on: ubuntu-latest
         steps:
           - name: Update Ubuntu
             run: sudo apt update
   
           - uses: actions/checkout@v2
-            with:
-              ref: ${{ github.event.inputs.commit_id }}
 
           - name: Use Node.js ${{ matrix.node-version }}
             uses: actions/setup-node@v2
@@ -68,8 +60,6 @@ jobs:
           run: sudo apt update
 
         - uses: actions/checkout@v2
-          with:
-            ref: ${{ github.event.inputs.commit_id }}
 
         - name: Setup packer
           uses: hashicorp/setup-packer@main
@@ -94,5 +84,68 @@ jobs:
         
         - name: Run packer build
           run: packer build -var-file=packer/variables.pkrvars.hcl packer/
-        
-        
+  
+
+  instance-template-build:
+        needs: packer-build
+        runs-on: ubuntu-latest
+        steps:
+        - name: Update Ubuntu
+          run: sudo apt update  
+        - uses: actions/checkout@v2
+        - name: Setup packer
+          uses: hashicorp/setup-packer@main 
+        - name: 'Google Auth'
+          uses: 'google-github-actions/auth@v2'
+          with:
+            credentials_json: '${{ secrets.GCP_CREDENTIALS }}'
+          
+        - name: 'Set up Cloud SDK'
+          uses: 'google-github-actions/setup-gcloud@v2'
+          
+        - name: 'Use gcloud CLI'
+          run: 'gcloud info'
+          
+        - name: Fetch secrets from Secret Manager
+          run: |
+            gcloud secrets versions access latest --secret="dbhostname" > dbhostname.txt
+            gcloud secrets versions access latest --secret="dbpassword" > dbpassword.txt
+    
+        - name: Create Startup Script
+          run: |
+            cat <<EOF > startup_script.sh
+            #!/bin/bash
+            ENV_FILE="/opt/app/.env"
+            
+            # Check if .env file already exists
+            if [ ! -f "$ENV_FILE" ]; then
+              # Create .env file
+              cat <<EOL > "$ENV_FILE"
+              PG_HOST=$(<dbhostname.txt)
+              PG_USER=webapp
+              PG_PASSWORD=$(<dbpassword.txt)
+              PG_DB=webapp
+              TOPIC_EMAIL=csye6225-send-verify-email
+            EOL
+              touch /opt/app/start.txt
+            fi
+            EOF
+            chmod +x startup_script.sh
+    
+        - name: Create Compute Instance Template
+          run: |
+            gcloud compute instance-templates create "appserver-template-1" \
+                --tags="webapp-server" \
+                --machine-type="e2-medium" \
+                --image-family="csye6225-webapp" \
+                --image-project="csye-6225-dev-413816" \
+                --boot-disk-size=100GB \
+                --boot-disk-type="pd-balanced" \
+                --boot-disk-kms-key="projects/csye-6225-dev-413816/locations/us-east1/keyRings/my-key-ring-1/cryptoKeys/webapp-kms-key-1" \
+                --subnet="projects/csye-6225-dev-413816/regions/us-east1/subnetworks/webapp" \
+                --network-tier="STANDARD" \
+                --service-account="webapp-vm-service-account@csye-6225-dev-413816.iam.gserviceaccount.com" \
+                --scopes="cloud-platform" \
+                --metadata-from-file=startup-script=startup_script.sh
+          
+          
