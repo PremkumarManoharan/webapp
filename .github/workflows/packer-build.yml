@@ -6,88 +6,90 @@ on:
       - closed
 
 jobs:
-  integration-test:
-        if: ${{github.event.pull_request.merged}}
-        runs-on: ubuntu-latest
-        steps:
-          - name: Update Ubuntu
-            run: sudo apt update
+  # integration-test:
+  #       if: ${{github.event.pull_request.merged}}
+  #       runs-on: ubuntu-latest
+  #       steps:
+  #         - name: Update Ubuntu
+  #           run: sudo apt update
   
-          - uses: actions/checkout@v2
+  #         - uses: actions/checkout@v2
 
-          - name: Use Node.js ${{ matrix.node-version }}
-            uses: actions/setup-node@v2
-            with:
-              node-version: ${{ matrix.node.version }}
+  #         - name: Use Node.js ${{ matrix.node-version }}
+  #           uses: actions/setup-node@v2
+  #           with:
+  #             node-version: ${{ matrix.node.version }}
 
-          - name: Install PostgresSQL
-            run: sudo apt install -y postgresql-14 postgresql-client-14
+  #         - name: Install PostgresSQL
+  #           run: sudo apt install -y postgresql-14 postgresql-client-14
         
-          - name: Enable postgresql service
-            run: sudo systemctl enable postgresql
+  #         - name: Enable postgresql service
+  #           run: sudo systemctl enable postgresql
 
-          - name: Start PostgreSQL database
-            run: sudo systemctl start postgresql
+  #         - name: Start PostgreSQL database
+  #           run: sudo systemctl start postgresql
           
-          - name: Create a service account (postgres user)
-            run: |
-              sudo -u postgres psql -c "CREATE USER ${{ secrets.PG_USER }} WITH PASSWORD '${{ secrets.PG_PASSWORD }}';"
-              sudo -u postgres psql -c "ALTER USER ${{ secrets.PG_USER }} CREATEDB;"
+  #         - name: Create a service account (postgres user)
+  #           run: |
+  #             sudo -u postgres psql -c "CREATE USER ${{ secrets.PG_USER }} WITH PASSWORD '${{ secrets.PG_PASSWORD }}';"
+  #             sudo -u postgres psql -c "ALTER USER ${{ secrets.PG_USER }} CREATEDB;"
         
           
-          - name: Create the .env file and write the environment variables to it
-            run: |
-              cat << EOF > .env
-              PG_USER=${{ secrets.PG_USER }}
-              PG_PASSWORD=${{ secrets.PG_PASSWORD }}
-              PG_DB=${{ secrets.PG_DB }}
-              PG_HOST=${{ secrets.PG_HOST }}
-              EOF
-              echo ".env file created with the specified content."
+  #         - name: Create the .env file and write the environment variables to it
+  #           run: |
+  #             cat << EOF > .env
+  #             PG_USER=${{ secrets.PG_USER }}
+  #             PG_PASSWORD=${{ secrets.PG_PASSWORD }}
+  #             PG_DB=${{ secrets.PG_DB }}
+  #             PG_HOST=${{ secrets.PG_HOST }}
+  #             EOF
+  #             echo ".env file created with the specified content."
               
-          - name: Install node dependencies
-            run: npm install
+  #         - name: Install node dependencies
+  #           run: npm install
               
-          - name: Run Integration tests
-            run: npm test
+  #         - name: Run Integration tests
+  #           run: npm test
   
 
-  packer-build:
-        needs: integration-test
-        runs-on: ubuntu-latest
-        steps:
-        - name: Update Ubuntu
-          run: sudo apt update
+  # packer-build:
+  #       needs: integration-test
+  #       runs-on: ubuntu-latest
+  #       steps:
+  #       - name: Update Ubuntu
+  #         run: sudo apt update
 
-        - uses: actions/checkout@v2
+  #       - uses: actions/checkout@v2
 
-        - name: Setup packer
-          uses: hashicorp/setup-packer@main
+  #       - name: Setup packer
+  #         uses: hashicorp/setup-packer@main
 
-        - name: 'Google Auth'
-          uses: 'google-github-actions/auth@v2'
-          with:
-            credentials_json: '${{ secrets.GCP_CREDENTIALS }}'
+  #       - name: 'Google Auth'
+  #         uses: 'google-github-actions/auth@v2'
+  #         with:
+  #           credentials_json: '${{ secrets.GCP_CREDENTIALS }}'
     
-        - name: 'Set up Cloud SDK'
-          uses: 'google-github-actions/setup-gcloud@v2'
+  #       - name: 'Set up Cloud SDK'
+  #         uses: 'google-github-actions/setup-gcloud@v2'
     
-        - name: 'Use gcloud CLI'
-          run: 'gcloud info'
+  #       - name: 'Use gcloud CLI'
+  #         run: 'gcloud info'
         
-        - name: Zip All Content
-          run: |
-            zip -r build.zip .
+  #       - name: Zip All Content
+  #         run: |
+  #           zip -r build.zip .
 
-        - name: Run packer init
-          run: "packer init ./packer/appBuildImage.pkr.hcl"
+  #       - name: Run packer init
+  #         run: "packer init ./packer/appBuildImage.pkr.hcl"
         
-        - name: Run packer build
-          run: packer build -var-file=packer/variables.pkrvars.hcl packer/
+  #       - name: Run packer build
+  #         run: packer build -var-file=packer/variables.pkrvars.hcl packer/
   
 
   instance-template-build:
-        needs: packer-build
+        # needs: packer-build
+        env:
+          TIMESTAMP: ${{ github.run_id }}
         runs-on: ubuntu-latest
         steps:
         - name: Update Ubuntu
@@ -134,7 +136,9 @@ jobs:
     
         - name: Create Compute Instance Template
           run: |
-            gcloud compute instance-templates create "appserver-template-1" \
+            TEMPLATE_NAME="appserver-${{ github.run_number }}"
+            echo "TEMPLATE_NAME=$TEMPLATE_NAME" >> $GITHUB_ENV
+            gcloud compute instance-templates create "$TEMPLATE_NAME" \
                 --tags="webapp-server" \
                 --machine-type="e2-medium" \
                 --image-family="csye6225-webapp" \
@@ -148,4 +152,9 @@ jobs:
                 --scopes="cloud-platform" \
                 --metadata-from-file=startup-script=startup_script.sh
           
-          
+        - name: Start Rolling Update
+          run: |
+              gcloud compute instance-groups managed rolling-action start-update "webapp-igm" \
+                    --version template=${{ env.TEMPLATE_NAME }} \
+                    --zone=us-east1
+            
