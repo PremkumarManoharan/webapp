@@ -140,6 +140,7 @@ jobs:
             echo "TEMPLATE_NAME=$TEMPLATE_NAME" >> $GITHUB_ENV
             gcloud compute instance-templates create "$TEMPLATE_NAME" \
                 --tags="webapp-server" \
+                --instance-template-region="us-east1"
                 --machine-type="e2-medium" \
                 --image-family="csye6225-webapp" \
                 --image-project="csye-6225-dev-413816" \
@@ -155,5 +156,5 @@ jobs:
         - name: Start Rolling Update
           run: |
               gcloud compute instance-groups managed rolling-action start-update "webapp-igm" \
-                    --version template=${{ env.TEMPLATE_NAME }} --region=us-east1
+                    --version template=${{ env.TEMPLATE_NAME }} --region=us-east1 --max-unavailable=1
             
