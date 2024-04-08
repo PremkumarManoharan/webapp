@@ -142,7 +142,7 @@ jobs:
                 --tags="webapp-server" \
                 --instance-template-region="us-east1" \
                 --machine-type="e2-medium" \
-                --image=IMAGE="packer-1712537390" \
+                --image="packer-1712537390" \
                 --image-project="csye-6225-dev-413816" \
                 --boot-disk-size=50GB \
                 --boot-disk-type="pd-balanced" \
