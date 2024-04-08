@@ -142,11 +142,11 @@ jobs:
                 --tags="webapp-server" \
                 --instance-template-region="us-east1" \
                 --machine-type="e2-medium" \
-                --image-family="csye6225-webapp" \
+                --image=IMAGE="packer-1712537390" \
                 --image-project="csye-6225-dev-413816" \
                 --boot-disk-size=50GB \
                 --boot-disk-type="pd-balanced" \
-                --boot-disk-kms-key="projects/csye-6225-dev-413816/locations/us-east1/keyRings/my-key-ring-1/cryptoKeys/webapp-kms-key-1" \
+                --boot-disk-kms-key="projects/csye-6225-dev-413816/locations/us-east1/keyRings/my-key-ring-2/cryptoKeys/webapp-kms-key-2" \
                 --subnet="projects/csye-6225-dev-413816/regions/us-east1/subnetworks/webapp" \
                 --network-tier="STANDARD" \
                 --service-account="webapp-vm-service-account@csye-6225-dev-413816.iam.gserviceaccount.com" \
