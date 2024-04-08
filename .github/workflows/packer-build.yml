@@ -155,6 +155,5 @@ jobs:
         - name: Start Rolling Update
           run: |
               gcloud compute instance-groups managed rolling-action start-update "webapp-igm" \
-                    --version template=${{ env.TEMPLATE_NAME }} \
-                    --zone=us-east1
+                    --version template=${{ env.TEMPLATE_NAME }} --region=us-east1
             
