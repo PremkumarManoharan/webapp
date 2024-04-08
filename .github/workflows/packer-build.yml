@@ -140,7 +140,7 @@ jobs:
             echo "TEMPLATE_NAME=$TEMPLATE_NAME" >> $GITHUB_ENV
             gcloud compute instance-templates create "$TEMPLATE_NAME" \
                 --tags="webapp-server" \
-                --instance-template-region="us-east1"
+                --instance-template-region="us-east1" \
                 --machine-type="e2-medium" \
                 --image-family="csye6225-webapp" \
                 --image-project="csye-6225-dev-413816" \
