@@ -63,3 +63,4 @@ Before getting started, make sure you have the following installed on your syste
 
 - Ensure that the PostgreSQL server is running before starting application.
 - The application is now ready to handle requests.
+- change to test rolling update
