@@ -54,6 +54,8 @@ jobs:
 
   # packer-build:
   #       needs: integration-test
+  #       outputs:
+  #         image_id: ${{ steps.set_output.outputs.image_id }}
   #       runs-on: ubuntu-latest
   #       steps:
   #       - name: Update Ubuntu
@@ -84,6 +86,8 @@ jobs:
         
   #       - name: Run packer build
   #         run: packer build -var-file=packer/variables.pkrvars.hcl packer/
+        
+        
   
 
   instance-template-build:
@@ -112,7 +116,8 @@ jobs:
           run: |
             gcloud secrets versions access latest --secret="dbhostname" > dbhostname.txt
             gcloud secrets versions access latest --secret="dbpassword" > dbpassword.txt
-    
+            gcloud secrets versions access latest --secret="csye6255" > keyringname.txt
+            gcloud compute images describe-from-family csye6225-webapp --project=csye-6225-dev-413816 --format="value(name)" > latest_image.txt
         - name: Create Startup Script
           run: |
             cat <<EOF > startup_script.sh
@@ -141,11 +146,11 @@ jobs:
                 --tags="webapp-server" \
                 --instance-template-region="us-east1" \
                 --machine-type="e2-medium" \
-                --image="packer-1712537390" \
+                --image=$(<latest_image.txt) \
                 --image-project="csye-6225-dev-413816" \
                 --boot-disk-size=50GB \
                 --boot-disk-type="pd-balanced" \
-                --boot-disk-kms-key="projects/csye-6225-dev-413816/locations/us-east1/keyRings/my-key-ring-2/cryptoKeys/webapp-kms-key-2" \
+                --boot-disk-kms-key="projects/csye-6225-dev-413816/locations/us-east1/keyRings/$(<keyringname.txt)/cryptoKeys/csye6255-key" \
                 --subnet="projects/csye-6225-dev-413816/regions/us-east1/subnetworks/webapp" \
                 --network-tier="STANDARD" \
                 --service-account="webapp-vm-service-account@csye-6225-dev-413816.iam.gserviceaccount.com" \
