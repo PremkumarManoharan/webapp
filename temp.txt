@@ -1,435 +1,173 @@
-googlecompute.webapp-source: output will be in this color.
+name: Packer-Build
 
-==> googlecompute.webapp-source: Checking image does not exist...
-==> googlecompute.webapp-source: Creating temporary RSA SSH key for instance...
-==> googlecompute.webapp-source: no persistent disk to create
-==> googlecompute.webapp-source: Using image: centos-stream-8-v20240312
-==> googlecompute.webapp-source: Creating instance...
-    googlecompute.webapp-source: Loading zone: us-east1-b
-    googlecompute.webapp-source: Loading machine type: e2-standard-2
-    googlecompute.webapp-source: Requesting instance creation...
-    googlecompute.webapp-source: Waiting for creation operation to complete...
-    googlecompute.webapp-source: Instance has been created!
-==> googlecompute.webapp-source: Waiting for the instance to become running...
-    googlecompute.webapp-source: IP: 34.74.177.24
-==> googlecompute.webapp-source: Using SSH communicator to connect: 34.74.177.24
-==> googlecompute.webapp-source: Waiting for SSH to become available...
-==> googlecompute.webapp-source: Connected to SSH!
-==> googlecompute.webapp-source: Uploading build.zip => /tmp/build.zip
-==> googlecompute.webapp-source: Provisioning with shell script: packer/scripts/update-packages.sh
-    googlecompute.webapp-source: CentOS Stream 8 - AppStream                      22 MB/s |  28 MB     00:01
-    googlecompute.webapp-source: CentOS Stream 8 - BaseOS                         12 MB/s |  10 MB     00:00
-    googlecompute.webapp-source: CentOS Stream 8 - Extras                         32 kB/s |  18 kB     00:00
-    googlecompute.webapp-source: CentOS Stream 8 - Extras common packages         17 kB/s | 7.5 kB     00:00
-    googlecompute.webapp-source: Google Compute Engine                            33 kB/s |  11 kB     00:00
-    googlecompute.webapp-source: Google Cloud SDK                                 43 MB/s | 124 MB     00:02
-    googlecompute.webapp-source:
-    googlecompute.webapp-source: google-cloud-cli.x86_64        470.0.0-1                           google-cloud-sdk
-    googlecompute.webapp-source: kernel.x86_64                  4.18.0-547.el8                      baseos
-    googlecompute.webapp-source: kernel-core.x86_64             4.18.0-547.el8                      baseos
-    googlecompute.webapp-source: kernel-modules.x86_64          4.18.0-547.el8                      baseos
-    googlecompute.webapp-source: kernel-tools.x86_64            4.18.0-547.el8                      baseos
-    googlecompute.webapp-source: kernel-tools-libs.x86_64       4.18.0-547.el8                      baseos
-    googlecompute.webapp-source: libtirpc.x86_64                1.1.4-10.el8                        baseos
-    googlecompute.webapp-source: mdadm.x86_64                   4.2-14.el8                          baseos
-    googlecompute.webapp-source: python3-perf.x86_64            4.18.0-547.el8                      baseos
-    googlecompute.webapp-source: qemu-guest-agent.x86_64        15:6.2.0-49.module_el8+991+097e156d appstream
-    googlecompute.webapp-source: selinux-policy.noarch          3.14.3-139.el8                      baseos
-    googlecompute.webapp-source: selinux-policy-targeted.noarch 3.14.3-139.el8                      baseos
-    googlecompute.webapp-source: systemd.x86_64                 239-82.el8                          baseos
-    googlecompute.webapp-source: systemd-libs.x86_64            239-82.el8                          baseos
-    googlecompute.webapp-source: systemd-pam.x86_64             239-82.el8                          baseos
-    googlecompute.webapp-source: systemd-udev.x86_64            239-82.el8                          baseos
-    googlecompute.webapp-source: tuned.noarch                   2.22.1-4.el8                        baseos
-    googlecompute.webapp-source: Packages Updated
-==> googlecompute.webapp-source: Provisioning with shell script: packer/scripts/install-required-packages.sh
-    googlecompute.webapp-source: Last metadata expiration check: 0:00:48 ago on Wed 27 Mar 2024 05:37:21 PM UTC.
-    googlecompute.webapp-source: Package curl-7.61.1-34.el8.x86_64 is already installed.
-    googlecompute.webapp-source: Dependencies resolved.
-    googlecompute.webapp-source: Nothing to do.
-    googlecompute.webapp-source: Complete!
-    googlecompute.webapp-source: 2024-03-27 17:38:12 - Cleaning up old repositories...
-    googlecompute.webapp-source: 2024-03-27 17:38:12 - Old repositories removed
-    googlecompute.webapp-source: 2024-03-27 17:38:12 - Supported architecture: x86_64
-    googlecompute.webapp-source: 2024-03-27 17:38:12 - Added N|Solid repository for LTS version: 20.x
-    googlecompute.webapp-source: 2024-03-27 17:38:12 - dnf available, updating...
-    googlecompute.webapp-source: Node.js Packages for Linux RPM based distros -  1.1 MB/s | 502 kB     00:00
-    googlecompute.webapp-source: N|Solid Packages for Linux RPM based distros -  758 kB/s | 176 kB     00:00
-    googlecompute.webapp-source: Metadata cache created.
-    googlecompute.webapp-source: 2024-03-27 17:38:13 - Repository is configured and updated. Run 'dnf install nodejs -y' to complete the installation.
-    googlecompute.webapp-source: Last metadata expiration check: 0:00:01 ago on Wed 27 Mar 2024 05:38:13 PM UTC.
-    googlecompute.webapp-source: Dependencies resolved.
-    googlecompute.webapp-source: ================================================================================
-    googlecompute.webapp-source:  Package    Arch       Version                      Repository             Size
-    googlecompute.webapp-source: ================================================================================
-    googlecompute.webapp-source: Installing:
-    googlecompute.webapp-source:  nodejs     x86_64     2:20.12.0-1nodesource        nodesource-nodejs      36 M
-    googlecompute.webapp-source:
-    googlecompute.webapp-source: Transaction Summary
-    googlecompute.webapp-source: ================================================================================
-    googlecompute.webapp-source: Install  1 Package
-    googlecompute.webapp-source:
-    googlecompute.webapp-source: Total download size: 36 M
-    googlecompute.webapp-source: Installed size: 104 M
-    googlecompute.webapp-source: Downloading Packages:
-    googlecompute.webapp-source: nodejs-20.12.0-1nodesource.x86_64.rpm            57 MB/s |  36 MB     00:00
-    googlecompute.webapp-source: --------------------------------------------------------------------------------
-    googlecompute.webapp-source: Total                                            56 MB/s |  36 MB     00:00
-    googlecompute.webapp-source: Node.js Packages for Linux RPM based distros -   52 kB/s | 3.1 kB     00:00
-==> googlecompute.webapp-source: Importing GPG key 0x3AF28A14:
-==> googlecompute.webapp-source:  Userid     : "Nodesource Operations <operations@nodesource.com>"
-==> googlecompute.webapp-source:  Fingerprint: 242B 8138 31AF 0956 2B6C 46F7 6B88 DA4E 3AF2 8A14
-==> googlecompute.webapp-source:  From       : https://rpm.nodesource.com/gpgkey/ns-operations-public.key
-    googlecompute.webapp-source: Key imported successfully
-    googlecompute.webapp-source: Running transaction check
-    googlecompute.webapp-source: Transaction check succeeded.
-    googlecompute.webapp-source: Running transaction test
-    googlecompute.webapp-source: Transaction test succeeded.
-    googlecompute.webapp-source: Running transaction
-    googlecompute.webapp-source:   Preparing        :                                                        1/1
-    googlecompute.webapp-source:   Running scriptlet: nodejs-2:20.12.0-1nodesource.x86_64                    1/1
-    googlecompute.webapp-source:   Installing       : nodejs-2:20.12.0-1nodesource.x86_64                    1/1
-    googlecompute.webapp-source:   Running scriptlet: nodejs-2:20.12.0-1nodesource.x86_64                    1/1
-    googlecompute.webapp-source:   Verifying        : nodejs-2:20.12.0-1nodesource.x86_64                    1/1
-    googlecompute.webapp-source:
-    googlecompute.webapp-source: Installed:
-    googlecompute.webapp-source:   nodejs-2:20.12.0-1nodesource.x86_64
-    googlecompute.webapp-source:
-    googlecompute.webapp-source: Complete!
-    googlecompute.webapp-source: Last metadata expiration check: 0:00:10 ago on Wed 27 Mar 2024 05:38:13 PM UTC.
-    googlecompute.webapp-source: Dependencies resolved.
-    googlecompute.webapp-source: ================================================================================
-    googlecompute.webapp-source:  Package         Architecture     Version                Repository        Size
-    googlecompute.webapp-source: ================================================================================
-    googlecompute.webapp-source: Installing:
-    googlecompute.webapp-source:  unzip           x86_64           6.0-46.el8             baseos           196 k
-    googlecompute.webapp-source:
-    googlecompute.webapp-source: Transaction Summary
-    googlecompute.webapp-source: ================================================================================
-    googlecompute.webapp-source: Install  1 Package
-    googlecompute.webapp-source:
-    googlecompute.webapp-source: Total download size: 196 k
-    googlecompute.webapp-source: Installed size: 414 k
-    googlecompute.webapp-source: Downloading Packages:
-    googlecompute.webapp-source: unzip-6.0-46.el8.x86_64.rpm                     1.5 MB/s | 196 kB     00:00
-    googlecompute.webapp-source: --------------------------------------------------------------------------------
-    googlecompute.webapp-source: Total                                           566 kB/s | 196 kB     00:00
-    googlecompute.webapp-source: Running transaction check
-    googlecompute.webapp-source: Transaction check succeeded.
-    googlecompute.webapp-source: Running transaction test
-    googlecompute.webapp-source: Transaction test succeeded.
-    googlecompute.webapp-source: Running transaction
-    googlecompute.webapp-source:   Preparing        :                                                        1/1
-    googlecompute.webapp-source:   Installing       : unzip-6.0-46.el8.x86_64                                1/1
-    googlecompute.webapp-source:   Running scriptlet: unzip-6.0-46.el8.x86_64                                1/1
-    googlecompute.webapp-source:   Verifying        : unzip-6.0-46.el8.x86_64                                1/1
-    googlecompute.webapp-source:
-    googlecompute.webapp-source: Installed:
-    googlecompute.webapp-source:   unzip-6.0-46.el8.x86_64
-    googlecompute.webapp-source:
-    googlecompute.webapp-source: Complete!
-==> googlecompute.webapp-source: Provisioning with shell script: packer/scripts/copy-unzip-webapp-src.sh
-    googlecompute.webapp-source: /opt/app
-    googlecompute.webapp-source: Archive:  build.zip
-    googlecompute.webapp-source:    creating: .github/
-    googlecompute.webapp-source:    creating: .github/workflows/
-    googlecompute.webapp-source:   inflating: .github/workflows/nodejs-ci.yml
-    googlecompute.webapp-source:   inflating: .github/workflows/packer-build.yml
-    googlecompute.webapp-source:   inflating: .github/workflows/integration-test-1.yml
-    googlecompute.webapp-source:   inflating: .github/workflows/packer-checks.yml
-    googlecompute.webapp-source:    creating: src/
-    googlecompute.webapp-source:    creating: src/api/
-    googlecompute.webapp-source:    creating: src/api/v1/
-    googlecompute.webapp-source:    creating: src/api/v1/config/
-    googlecompute.webapp-source:   inflating: src/api/v1/config/loggerConfig.js
-    googlecompute.webapp-source:   inflating: src/api/v1/config/dbConfig.js
-    googlecompute.webapp-source:    creating: src/api/v1/services/
-    googlecompute.webapp-source:   inflating: src/api/v1/services/basicAuthService.js
-    googlecompute.webapp-source:   inflating: src/api/v1/services/sendEmailService.js
-    googlecompute.webapp-source:   inflating: src/api/v1/services/userService.js
-    googlecompute.webapp-source:    creating: src/api/v1/routes/
-    googlecompute.webapp-source:   inflating: src/api/v1/routes/user.js
-    googlecompute.webapp-source:   inflating: src/api/v1/routes/mainRouter.js
-    googlecompute.webapp-source:   inflating: src/api/v1/routes/routes.js
-    googlecompute.webapp-source:   inflating: src/api/v1/routes/healthz.js
-    googlecompute.webapp-source:    creating: src/api/v1/middleware/
-    googlecompute.webapp-source:   inflating: src/api/v1/middleware/authentication.js
-    googlecompute.webapp-source:   inflating: src/api/v1/middleware/validation.js
-    googlecompute.webapp-source:   inflating: src/api/v1/index.js
-    googlecompute.webapp-source:    creating: src/api/v1/controller/
-    googlecompute.webapp-source:   inflating: src/api/v1/controller/userController.js
-    googlecompute.webapp-source:   inflating: src/api/v1/controller/healthzController.js
-    googlecompute.webapp-source:   inflating: src/api/v1/controller/controllers.js
-    googlecompute.webapp-source:    creating: src/api/v1/model/
-    googlecompute.webapp-source:   inflating: src/api/v1/model/user.js
-    googlecompute.webapp-source:   inflating: ops-agent-config.yaml
-    googlecompute.webapp-source:   inflating: .gitignore
-    googlecompute.webapp-source:   inflating: csye6225.service
-    googlecompute.webapp-source:   inflating: server.js
-    googlecompute.webapp-source:   inflating: package-lock.json
-    googlecompute.webapp-source:    creating: .git/
-    googlecompute.webapp-source:    creating: .git/branches/
-    googlecompute.webapp-source:   inflating: .git/shallow
-    googlecompute.webapp-source:   inflating: .git/config
-    googlecompute.webapp-source:   inflating: .git/description
-    googlecompute.webapp-source:   inflating: .git/index
-    googlecompute.webapp-source:    creating: .git/hooks/
-    googlecompute.webapp-source:   inflating: .git/hooks/fsmonitor-watchman.sample
-    googlecompute.webapp-source:   inflating: .git/hooks/pre-merge-commit.sample
-    googlecompute.webapp-source:   inflating: .git/hooks/commit-msg.sample
-    googlecompute.webapp-source:   inflating: .git/hooks/post-update.sample
-    googlecompute.webapp-source:   inflating: .git/hooks/applypatch-msg.sample
-    googlecompute.webapp-source:   inflating: .git/hooks/pre-applypatch.sample
-    googlecompute.webapp-source:   inflating: .git/hooks/pre-commit.sample
-    googlecompute.webapp-source:   inflating: .git/hooks/pre-receive.sample
-    googlecompute.webapp-source:   inflating: .git/hooks/sendemail-validate.sample
-    googlecompute.webapp-source:   inflating: .git/hooks/pre-rebase.sample
-    googlecompute.webapp-source:   inflating: .git/hooks/push-to-checkout.sample
-    googlecompute.webapp-source:   inflating: .git/hooks/pre-push.sample
-    googlecompute.webapp-source:   inflating: .git/hooks/update.sample
-    googlecompute.webapp-source:   inflating: .git/hooks/prepare-commit-msg.sample
-    googlecompute.webapp-source:  extracting: .git/HEAD
-    googlecompute.webapp-source:   inflating: .git/FETCH_HEAD
-    googlecompute.webapp-source:    creating: .git/info/
-    googlecompute.webapp-source:   inflating: .git/info/exclude
-    googlecompute.webapp-source:    creating: .git/refs/
-    googlecompute.webapp-source:    creating: .git/refs/tags/
-    googlecompute.webapp-source:    creating: .git/refs/remotes/
-    googlecompute.webapp-source:    creating: .git/refs/remotes/origin/
-    googlecompute.webapp-source:   inflating: .git/refs/remotes/origin/main
-    googlecompute.webapp-source:    creating: .git/refs/heads/
-    googlecompute.webapp-source:   inflating: .git/refs/heads/main
-    googlecompute.webapp-source:    creating: .git/logs/
-    googlecompute.webapp-source:   inflating: .git/logs/HEAD
-    googlecompute.webapp-source:    creating: .git/logs/refs/
-    googlecompute.webapp-source:    creating: .git/logs/refs/remotes/
-    googlecompute.webapp-source:    creating: .git/logs/refs/remotes/origin/
-    googlecompute.webapp-source:   inflating: .git/logs/refs/remotes/origin/main
-    googlecompute.webapp-source:    creating: .git/logs/refs/heads/
-    googlecompute.webapp-source:   inflating: .git/logs/refs/heads/main
-    googlecompute.webapp-source:    creating: .git/objects/
-    googlecompute.webapp-source:    creating: .git/objects/99/
-    googlecompute.webapp-source:  extracting: .git/objects/99/afa35b436bc3ef2db5a79c2bd0810c87eb56ef
-    googlecompute.webapp-source:    creating: .git/objects/b1/
-    googlecompute.webapp-source:  extracting: .git/objects/b1/c8ca7b0f075259df9c5c9a513b65bdad4d5c95
-    googlecompute.webapp-source:    creating: .git/objects/28/
-    googlecompute.webapp-source:  extracting: .git/objects/28/e6bcf1d66478d6edfbe85fac28c6ad22119b69
-    googlecompute.webapp-source:    creating: .git/objects/79/
-    googlecompute.webapp-source:  extracting: .git/objects/79/66fdb44ecb67aa8352bb0f512ecf5299221f1c
-    googlecompute.webapp-source:  extracting: .git/objects/79/47d95b9f41bee536488c4e5bf7f8327bce5e3e
-    googlecompute.webapp-source:    creating: .git/objects/5e/
-    googlecompute.webapp-source:  extracting: .git/objects/5e/a954ebabf140412c4643cad3c5c6a0c8dd79d1
-    googlecompute.webapp-source:    creating: .git/objects/5a/
-    googlecompute.webapp-source:  extracting: .git/objects/5a/db28defecb267096e8f32e65b7b9c24d43cc6d
-    googlecompute.webapp-source:  extracting: .git/objects/5a/245149fe0cb79d6cd0d3a04b403849a3910d85
-    googlecompute.webapp-source:    creating: .git/objects/b6/
-    googlecompute.webapp-source:  extracting: .git/objects/b6/64e5fc4484461aa245cd21936ae366fd768860
-    googlecompute.webapp-source:    creating: .git/objects/pack/
-    googlecompute.webapp-source:    creating: .git/objects/29/
-    googlecompute.webapp-source:  extracting: .git/objects/29/0898e685d6919370a9e6c005823ef6c1e5f1aa
-    googlecompute.webapp-source:    creating: .git/objects/8c/
-    googlecompute.webapp-source:  extracting: .git/objects/8c/dc19c192263256d3fe2f1d99ecbf8d0dc6f64f
-    googlecompute.webapp-source:    creating: .git/objects/ab/
-    googlecompute.webapp-source:  extracting: .git/objects/ab/5a12f8f8f1a9d75e03fb3ed3cae1e0b58ada40
-    googlecompute.webapp-source:    creating: .git/objects/35/
-    googlecompute.webapp-source:  extracting: .git/objects/35/e76852d8c5c432ab10a98a3c366af9357417e5
-    googlecompute.webapp-source:    creating: .git/objects/76/
-    googlecompute.webapp-source:  extracting: .git/objects/76/275f59e293d6c9bd6bd969e43435c1f6db8080
-    googlecompute.webapp-source:    creating: .git/objects/63/
-    googlecompute.webapp-source:  extracting: .git/objects/63/378c14fe06f5b8b0195e31b166d176fce94b8b
-    googlecompute.webapp-source:    creating: .git/objects/0f/
-    googlecompute.webapp-source:  extracting: .git/objects/0f/10833c7d01b7c6458cfd76fbcee76c8d325cc4
-    googlecompute.webapp-source:    creating: .git/objects/24/
-    googlecompute.webapp-source:  extracting: .git/objects/24/c69b22debc11bb46f9ba0c3589ddd6ad31559a
-    googlecompute.webapp-source:    creating: .git/objects/6d/
-    googlecompute.webapp-source:  extracting: .git/objects/6d/298cfe450bddb5e9348345c3a635b15c3f8483
-    googlecompute.webapp-source:    creating: .git/objects/d5/
-    googlecompute.webapp-source:  extracting: .git/objects/d5/054d90a949385cc9af3d0546db7b7434d4fdff
-    googlecompute.webapp-source:    creating: .git/objects/1f/
-    googlecompute.webapp-source:  extracting: .git/objects/1f/bbb61e9dc00feb4a98b2c4f3826f53e1efb40a
-    googlecompute.webapp-source:    creating: .git/objects/51/
-    googlecompute.webapp-source:  extracting: .git/objects/51/48afb308e9c745d082f0f45aab5e49ffaca201
-    googlecompute.webapp-source:    creating: .git/objects/a7/
-    googlecompute.webapp-source:  extracting: .git/objects/a7/dfed6a2dcfd20a290a022892de184c25bd1d8a
-    googlecompute.webapp-source:    creating: .git/objects/info/
-    googlecompute.webapp-source:    creating: .git/objects/0c/
-    googlecompute.webapp-source:  extracting: .git/objects/0c/b517a811b1979fd8dc8388422b2a6001eec5f2
-    googlecompute.webapp-source:    creating: .git/objects/34/
-    googlecompute.webapp-source:  extracting: .git/objects/34/76ef35b045e81a5f99f309fba532b92f55f1f6
-    googlecompute.webapp-source:    creating: .git/objects/af/
-    googlecompute.webapp-source:  extracting: .git/objects/af/bbef5c85e49b0b82f6f41328be28807a31998f
-    googlecompute.webapp-source:    creating: .git/objects/c0/
-    googlecompute.webapp-source:  extracting: .git/objects/c0/6f94f229a1d2fd999349a9af7f936518fc05b1
-    googlecompute.webapp-source:    creating: .git/objects/0d/
-    googlecompute.webapp-source:  extracting: .git/objects/0d/e3a0f50626b7900ec9647d24e5cab919a61388
-    googlecompute.webapp-source:    creating: .git/objects/d3/
-    googlecompute.webapp-source:  extracting: .git/objects/d3/0f37cc6207757ddd1a1e5d0538c5140225d4c1
-    googlecompute.webapp-source:    creating: .git/objects/e9/
-    googlecompute.webapp-source:  extracting: .git/objects/e9/a21fd1f4105abc72e79ae31ea019fb52fa094f
-    googlecompute.webapp-source:    creating: .git/objects/ba/
-    googlecompute.webapp-source:  extracting: .git/objects/ba/c9201219ab1c2d652fae1a46271803eee7c0e0
-    googlecompute.webapp-source:    creating: .git/objects/b9/
-    googlecompute.webapp-source:   inflating: .git/objects/b9/a604b68bcf05ac93d05e68df96c4326ef8e0f1
-    googlecompute.webapp-source:  extracting: .git/objects/b9/c1e59f657321bde5a448b4d8d18b2dc82da095
-    googlecompute.webapp-source:    creating: .git/objects/36/
-    googlecompute.webapp-source:  extracting: .git/objects/36/1a7aac2313068f62cb90627f54d984d05f2eea
-    googlecompute.webapp-source:    creating: .git/objects/e3/
-    googlecompute.webapp-source:  extracting: .git/objects/e3/9ab810b5dcba007a97beb53620e32be10d1ee0
-    googlecompute.webapp-source:  extracting: .git/objects/e3/e4314b30cd2e4d9f0e17fbdefd80038193f6d0
-    googlecompute.webapp-source:    creating: .git/objects/95/
-    googlecompute.webapp-source:  extracting: .git/objects/95/3a1710b148d51b8f9d583dc6baac3a5bd0bebb
-    googlecompute.webapp-source:  extracting: .git/objects/95/c8a75282430b674407c18eb6362190aff6ca16
-    googlecompute.webapp-source:    creating: .git/objects/44/
-    googlecompute.webapp-source:  extracting: .git/objects/44/41573cab3ebc90cb450400b3c30e46be7c0c1a
-    googlecompute.webapp-source:    creating: .git/objects/62/
-    googlecompute.webapp-source:  extracting: .git/objects/62/9f4aa716635c9120354a7845f54350f453b89d
-    googlecompute.webapp-source:    creating: .git/objects/74/
-    googlecompute.webapp-source:  extracting: .git/objects/74/0d984b1ddb724bc215ba5e8b0a375ae88cf899
-    googlecompute.webapp-source:    creating: .git/objects/d1/
-    googlecompute.webapp-source:  extracting: .git/objects/d1/90931e8058e6466f4a78f84160dec6604fe4ad
-    googlecompute.webapp-source:  extracting: .git/objects/d1/422be3be3c2f6a6933a08991bcbff5d2f44faa
-    googlecompute.webapp-source:    creating: .git/objects/6a/
-    googlecompute.webapp-source:  extracting: .git/objects/6a/3642672980a6417a64a6e7f6a02beccbc4bd19
-    googlecompute.webapp-source:    creating: .git/objects/72/
-    googlecompute.webapp-source:  extracting: .git/objects/72/672434eff6785f8bda309a2028a4a1e8643e25
-    googlecompute.webapp-source:    creating: .git/objects/d2/
-    googlecompute.webapp-source:  extracting: .git/objects/d2/b64cef30bb77e97e8e517b8016a4f6c8b80b2d
-    googlecompute.webapp-source:    creating: .git/objects/1c/
-    googlecompute.webapp-source:  extracting: .git/objects/1c/bca3ea6dc18a97e1b455b560d17633f8f051c1
-    googlecompute.webapp-source:    creating: .git/objects/d9/
-    googlecompute.webapp-source:  extracting: .git/objects/d9/dc40d775cfbeb2e5b6330eb987a75b8907f9aa
-    googlecompute.webapp-source:    creating: .git/objects/be/
-    googlecompute.webapp-source:  extracting: .git/objects/be/932e61812125dff2e537472e35f2d8ec3b22c9
-    googlecompute.webapp-source:  extracting: .git/objects/be/1e382ddda680c5b358560f15f54624a12cb420
-    googlecompute.webapp-source:    creating: .git/objects/e2/
-    googlecompute.webapp-source:  extracting: .git/objects/e2/6dda1f8be6fb91463126591ef168b8964b0291
-    googlecompute.webapp-source:    creating: .git/objects/18/
-    googlecompute.webapp-source:  extracting: .git/objects/18/df7cd9114de7a99d5e98bee14a8f62ea765c85
-    googlecompute.webapp-source:    creating: .git/objects/06/
-    googlecompute.webapp-source:  extracting: .git/objects/06/a9d48b16c257c41a734d8320d26338ff44b8a3
-    googlecompute.webapp-source:  extracting: .git/objects/06/744d7c69652e00b73134f341bd6777ae973e0f
-    googlecompute.webapp-source:    creating: .git/objects/8f/
-    googlecompute.webapp-source:  extracting: .git/objects/8f/7253ad412bf781ef033e269e03a740375c760c
-    googlecompute.webapp-source:    creating: .git/objects/38/
-    googlecompute.webapp-source:  extracting: .git/objects/38/1b98d11e80b24ea52c2bec9f1fdb3cf963e142
-    googlecompute.webapp-source:   inflating: package.json
-    googlecompute.webapp-source:   inflating: README.md
-    googlecompute.webapp-source:   inflating: gha-creds-b58225267b77a58b.json
-    googlecompute.webapp-source:    creating: packer/
-    googlecompute.webapp-source:   inflating: packer/variables.pkr.hcl
-    googlecompute.webapp-source:    creating: packer/scripts/
-    googlecompute.webapp-source:   inflating: packer/scripts/install-dependencies.sh
-    googlecompute.webapp-source:   inflating: packer/scripts/create-csye6225-user.sh
-    googlecompute.webapp-source:   inflating: packer/scripts/copy-ops-agent-config.sh
-    googlecompute.webapp-source:   inflating: packer/scripts/install-required-packages.sh
-    googlecompute.webapp-source:   inflating: packer/scripts/setup-systemd.sh
-    googlecompute.webapp-source:   inflating: packer/scripts/update-packages.sh
-    googlecompute.webapp-source:   inflating: packer/scripts/install-ops-agent.sh
-    googlecompute.webapp-source:   inflating: packer/scripts/copy-unzip-webapp-src.sh
-    googlecompute.webapp-source:   inflating: packer/variables.pkrvars.hcl
-    googlecompute.webapp-source:   inflating: packer/appBuildImage.pkr.hcl
-    googlecompute.webapp-source:    creating: test/
-    googlecompute.webapp-source:   inflating: test/integration.test.js
-    googlecompute.webapp-source: build.zip
-    googlecompute.webapp-source: csye6225.service
-    googlecompute.webapp-source: gha-creds-b58225267b77a58b.json
-    googlecompute.webapp-source: ops-agent-config.yaml
-    googlecompute.webapp-source: package.json
-    googlecompute.webapp-source: package-lock.json
-    googlecompute.webapp-source: packer
-    googlecompute.webapp-source: README.md
-    googlecompute.webapp-source: server.js
-    googlecompute.webapp-source: src
-    googlecompute.webapp-source: test
-==> googlecompute.webapp-source: Provisioning with shell script: packer/scripts/install-dependencies.sh
-    googlecompute.webapp-source:
-    googlecompute.webapp-source: added 647 packages, and audited 648 packages in 17s
-    googlecompute.webapp-source:
-    googlecompute.webapp-source: 54 packages are looking for funding
-    googlecompute.webapp-source:   run `npm fund` for details
-    googlecompute.webapp-source:
-    googlecompute.webapp-source: 1 moderate severity vulnerability
-    googlecompute.webapp-source:
-    googlecompute.webapp-source: To address all issues, run:
-    googlecompute.webapp-source:   npm audit fix
-    googlecompute.webapp-source:
-    googlecompute.webapp-source: Run `npm audit` for details.
-==> googlecompute.webapp-source: Provisioning with shell script: packer/scripts/create-csye6225-user.sh
-==> googlecompute.webapp-source: Provisioning with shell script: packer/scripts/install-ops-agent.sh
-    googlecompute.webapp-source: Adding agent repository for centos.
-    googlecompute.webapp-source: [google-cloud-ops-agent]
-    googlecompute.webapp-source: name=Google Cloud Ops Agent Repository
-    googlecompute.webapp-source: baseurl=https://packages.cloud.google.com/yum/repos/google-cloud-ops-agent-el8-$basearch-all
-    googlecompute.webapp-source: autorefresh=0
-    googlecompute.webapp-source: enabled=1
-    googlecompute.webapp-source: type=rpm-md
-    googlecompute.webapp-source: gpgcheck=1
-    googlecompute.webapp-source: repo_gpgcheck=0
-    googlecompute.webapp-source: gpgkey=https://packages.cloud.google.com/yum/doc/yum-key.gpg
-    googlecompute.webapp-source:        https://packages.cloud.google.com/yum/doc/rpm-package-key.gpg
-    googlecompute.webapp-source: Google Cloud Ops Agent Repository                84 kB/s |  30 kB     00:00
-    googlecompute.webapp-source: Available Upgrades
-    googlecompute.webapp-source: google-cloud-cli.x86_64        470.0.0-1                           google-cloud-sdk
-    googlecompute.webapp-source: kernel.x86_64                  4.18.0-547.el8                      baseos
-    googlecompute.webapp-source: kernel-core.x86_64             4.18.0-547.el8                      baseos
-    googlecompute.webapp-source: kernel-modules.x86_64          4.18.0-547.el8                      baseos
-    googlecompute.webapp-source: kernel-tools.x86_64            4.18.0-547.el8                      baseos
-    googlecompute.webapp-source: kernel-tools-libs.x86_64       4.18.0-547.el8                      baseos
-    googlecompute.webapp-source: libtirpc.x86_64                1.1.4-10.el8                        baseos
-    googlecompute.webapp-source: mdadm.x86_64                   4.2-14.el8                          baseos
-    googlecompute.webapp-source: python3-perf.x86_64            4.18.0-547.el8                      baseos
-    googlecompute.webapp-source: qemu-guest-agent.x86_64        15:6.2.0-49.module_el8+991+097e156d appstream
-    googlecompute.webapp-source: selinux-policy.noarch          3.14.3-139.el8                      baseos
-    googlecompute.webapp-source: selinux-policy-targeted.noarch 3.14.3-139.el8                      baseos
-    googlecompute.webapp-source: systemd.x86_64                 239-82.el8                          baseos
-    googlecompute.webapp-source: systemd-libs.x86_64            239-82.el8                          baseos
-    googlecompute.webapp-source: systemd-pam.x86_64             239-82.el8                          baseos
-    googlecompute.webapp-source: systemd-udev.x86_64            239-82.el8                          baseos
-    googlecompute.webapp-source: tuned.noarch                   2.22.1-4.el8                        baseos
-    googlecompute.webapp-source: Last metadata expiration check: 0:00:05 ago on Wed 27 Mar 2024 05:38:50 PM UTC.
-    googlecompute.webapp-source: Dependencies resolved.
-    googlecompute.webapp-source: ================================================================================
-    googlecompute.webapp-source:  Package                 Arch    Version          Repository               Size
-    googlecompute.webapp-source: ================================================================================
-    googlecompute.webapp-source: Installing:
-    googlecompute.webapp-source:  google-cloud-ops-agent  x86_64  2.46.1-1.el8     google-cloud-ops-agent  197 M
-    googlecompute.webapp-source:
-    googlecompute.webapp-source: Transaction Summary
-    googlecompute.webapp-source: ================================================================================
-    googlecompute.webapp-source: Install  1 Package
-    googlecompute.webapp-source:
-    googlecompute.webapp-source: Total download size: 197 M
-    googlecompute.webapp-source: Installed size: 585 M
-    googlecompute.webapp-source: Downloading Packages:
-    googlecompute.webapp-source: 436dcb627f68347244d4132fbb4dbe70854d4e2ed317f2b  47 MB/s | 197 MB     00:04
-    googlecompute.webapp-source: --------------------------------------------------------------------------------
-    googlecompute.webapp-source: Total                                            47 MB/s | 197 MB     00:04
-    googlecompute.webapp-source: Running transaction check
-    googlecompute.webapp-source: Transaction check succeeded.
-    googlecompute.webapp-source: Running transaction test
-    googlecompute.webapp-source: Transaction test succeeded.
-    googlecompute.webapp-source: Running transaction
-    googlecompute.webapp-source:   Preparing        :                                                        1/1
-    googlecompute.webapp-source:   Installing       : google-cloud-ops-agent-2.46.1-1.el8.x86_64             1/1
-    googlecompute.webapp-source:   Running scriptlet: google-cloud-ops-agent-2.46.1-1.el8.x86_64             1/1
-    googlecompute.webapp-source:   Verifying        : google-cloud-ops-agent-2.46.1-1.el8.x86_64             1/1
-    googlecompute.webapp-source:
-    googlecompute.webapp-source: Installed:
-    googlecompute.webapp-source:   google-cloud-ops-agent-2.46.1-1.el8.x86_64
-    googlecompute.webapp-source:
-    googlecompute.webapp-source: Complete!
-    googlecompute.webapp-source: google-cloud-ops-agent  installation succeeded.
-==> googlecompute.webapp-source: Provisioning with shell script: packer/scripts/copy-ops-agent-config.sh
-==> googlecompute.webapp-source: Provisioning with shell script: packer/scripts/setup-systemd.sh
-==> googlecompute.webapp-source: Created symlink /etc/systemd/system/multi-user.target.wants/csye6225.service → /etc/systemd/system/csye6225.service.
-==> googlecompute.webapp-source: Deleting instance...
-    googlecompute.webapp-source: Instance has been deleted!
-==> googlecompute.webapp-source: Creating image...
-==> googlecompute.webapp-source: Deleting disk...
-    googlecompute.webapp-source: Disk has been deleted!
-Build 'googlecompute.webapp-source' finished after 4 minutes 50 seconds.
+on:
+  pull_request:
+    types: 
+      - closed
 
-==> Wait completed after 4 minutes 50 seconds
+jobs:
+  # integration-test:
+  #       if: ${{github.event.pull_request.merged}}
+  #       runs-on: ubuntu-latest
+  #       steps:
+  #         - name: Update Ubuntu
+  #           run: sudo apt update
+  
+  #         - uses: actions/checkout@v2
 
-==> Builds finished. The artifacts of successful builds are:
---> googlecompute.webapp-source: A disk image was created in the 'csye-6225-dev-413816' project: packer-1711560974
+  #         - name: Use Node.js ${{ matrix.node-version }}
+  #           uses: actions/setup-node@v2
+  #           with:
+  #             node-version: ${{ matrix.node.version }}
+
+  #         - name: Install PostgresSQL
+  #           run: sudo apt install -y postgresql-14 postgresql-client-14
+        
+  #         - name: Enable postgresql service
+  #           run: sudo systemctl enable postgresql
+
+  #         - name: Start PostgreSQL database
+  #           run: sudo systemctl start postgresql
+          
+  #         - name: Create a service account (postgres user)
+  #           run: |
+  #             sudo -u postgres psql -c "CREATE USER ${{ secrets.PG_USER }} WITH PASSWORD '${{ secrets.PG_PASSWORD }}';"
+  #             sudo -u postgres psql -c "ALTER USER ${{ secrets.PG_USER }} CREATEDB;"
+        
+          
+  #         - name: Create the .env file and write the environment variables to it
+  #           run: |
+  #             cat << EOF > .env
+  #             PG_USER=${{ secrets.PG_USER }}
+  #             PG_PASSWORD=${{ secrets.PG_PASSWORD }}
+  #             PG_DB=${{ secrets.PG_DB }}
+  #             PG_HOST=${{ secrets.PG_HOST }}
+  #             EOF
+  #             echo ".env file created with the specified content."
+              
+  #         - name: Install node dependencies
+  #           run: npm install
+              
+  #         - name: Run Integration tests
+  #           run: npm test
+  
+
+  packer-build:
+        # needs: integration-test
+        outputs:
+          image_id: ${{ steps.packer_build.outputs.image_id }}
+        runs-on: ubuntu-latest
+        steps:
+        - name: Update Ubuntu
+          run: sudo apt update
+
+        - uses: actions/checkout@v2
+
+        - name: Setup packer
+          uses: hashicorp/setup-packer@main
+
+        - name: 'Google Auth'
+          uses: 'google-github-actions/auth@v2'
+          with:
+            credentials_json: '${{ secrets.GCP_CREDENTIALS }}'
+    
+        - name: 'Set up Cloud SDK'
+          uses: 'google-github-actions/setup-gcloud@v2'
+    
+        - name: 'Use gcloud CLI'
+          run: 'gcloud info'
+        
+        - name: Zip All Content
+          run: |
+            zip -r build.zip .
+
+        - name: Run packer init
+          run: "packer init ./packer/appBuildImage.pkr.hcl"
+        
+        - name: Run packer build
+          run: |
+            output=$(packer build -var-file=packer/variables.pkrvars.hcl packer/)
+            echo "$output"
+            image_id=$(echo "$output" | grep -oE 'packer-[0-9]+')
+            echo "$image_id"
+            echo "::set-output name=image_id::$image_id"
+        
+  
+
+  instance-template-build:
+        needs: packer-build
+        env:
+          TIMESTAMP: ${{ github.run_id }}
+        runs-on: ubuntu-latest
+        steps:
+        - name: Update Ubuntu
+          run: sudo apt update  
+        - uses: actions/checkout@v2
+        - name: Setup packer
+          uses: hashicorp/setup-packer@main 
+        - name: 'Google Auth'
+          uses: 'google-github-actions/auth@v2'
+          with:
+            credentials_json: '${{ secrets.GCP_CREDENTIALS }}'
+          
+        - name: 'Set up Cloud SDK'
+          uses: 'google-github-actions/setup-gcloud@v2'
+          
+        - name: 'Use gcloud CLI'
+          run: 'gcloud info'
+          
+        - name: Fetch secrets from Secret Manager
+          run: |
+            gcloud secrets versions access latest --secret="dbhostname" > dbhostname.txt
+            gcloud secrets versions access latest --secret="dbpassword" > dbpassword.txt
+            gcloud secrets versions access latest --secret="csye6255" > keyringname.txt
+            ${{ needs.packer-build.outputs.image_id }} > latest_image.txt
+        - name: Create Startup Script
+          run: |
+            cat <<EOF > startup_script.sh
+            #!/bin/bash
+            
+            # Check if .env file already exists
+            if [ ! -f "/opt/app/.env" ]; then
+              # Create .env file
+              cat <<EOL > "/opt/app/.env"
+              PG_HOST=$(<dbhostname.txt)
+              PG_USER=webapp
+              PG_PASSWORD=$(<dbpassword.txt)
+              PG_DB=webapp
+              TOPIC_EMAIL=csye6225-send-verify-email
+            EOL
+              touch /opt/app/start.txt
+            fi
+            EOF
+            chmod +x startup_script.sh
+    
+        - name: Create Compute Instance Template
+          run: |
+            TEMPLATE_NAME="appserver-${{ github.run_number }}"
+            echo "TEMPLATE_NAME=$TEMPLATE_NAME" >> $GITHUB_ENV
+            gcloud compute instance-templates create "$TEMPLATE_NAME" \
+                --tags="webapp-server" \
+                --instance-template-region="${{ secrets.GCP_REGION }}" \
+                --machine-type="e2-medium" \
+                --image=$(<latest_image.txt) \
+                --image-project="${{ secrets.GCP_PROJECT }}" \
+                --boot-disk-size=50GB \
+                --boot-disk-type="pd-balanced" \
+                --boot-disk-kms-key="projects/${{ secrets.GCP_PROJECT }}/locations/${{ secrets.GCP_REGION }}/keyRings/$(<keyringname.txt)/cryptoKeys/${{ secrets.GCP_KEY_NAME }}" \
+                --subnet="projects/${{ secrets.GCP_PROJECT }}/regions/${{ secrets.GCP_REGION }}/subnetworks/webapp" \
+                --network-tier="STANDARD" \
+                --service-account="${{ secrets.GCP_WEBAPP_SA_EMAIL }}" \
+                --scopes="cloud-platform" \
+                --metadata-from-file=startup-script=startup_script.sh
+          
+        - name: Start Rolling Update
+          run: |
+              gcloud compute instance-groups managed rolling-action start-update "webapp-igm" \
+              --region="${{ secrets.GCP_REGION }}" --version template=projects/${{ secrets.GCP_PROJECT }}/regions/${{ secrets.GCP_REGION }}/instanceTemplates/${{ env.TEMPLATE_NAME }} \
+              --max-unavailable=3
+            
+        - name: Wait Until Rolling update complete
+          run: |
+              gcloud compute instance-groups managed wait-until "webapp-igm" \
+              --region="${{ secrets.GCP_REGION }}" --version-target-reached 
