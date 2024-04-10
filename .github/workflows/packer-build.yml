@@ -121,7 +121,7 @@ jobs:
             gcloud secrets versions access latest --secret="dbhostname" > dbhostname.txt
             gcloud secrets versions access latest --secret="dbpassword" > dbpassword.txt
             gcloud secrets versions access latest --secret="csye6255" > keyringname.txt
-            ${{ needs.packer_build.outputs.image_id }} > latest_image.txt
+            ${{ needs.packer-build.outputs.image_id }} > latest_image.txt
         - name: Create Startup Script
           run: |
             cat <<EOF > startup_script.sh
