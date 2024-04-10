@@ -6,54 +6,54 @@ on:
       - closed
 
 jobs:
-  # integration-test:
-  #       if: ${{github.event.pull_request.merged}}
-  #       runs-on: ubuntu-latest
-  #       steps:
-  #         - name: Update Ubuntu
-  #           run: sudo apt update
+  integration-test:
+        if: ${{github.event.pull_request.merged}}
+        runs-on: ubuntu-latest
+        steps:
+          - name: Update Ubuntu
+            run: sudo apt update
   
-  #         - uses: actions/checkout@v2
+          - uses: actions/checkout@v2
 
-  #         - name: Use Node.js ${{ matrix.node-version }}
-  #           uses: actions/setup-node@v2
-  #           with:
-  #             node-version: ${{ matrix.node.version }}
+          - name: Use Node.js ${{ matrix.node-version }}
+            uses: actions/setup-node@v2
+            with:
+              node-version: ${{ matrix.node.version }}
 
-  #         - name: Install PostgresSQL
-  #           run: sudo apt install -y postgresql-14 postgresql-client-14
+          - name: Install PostgresSQL
+            run: sudo apt install -y postgresql-14 postgresql-client-14
         
-  #         - name: Enable postgresql service
-  #           run: sudo systemctl enable postgresql
+          - name: Enable postgresql service
+            run: sudo systemctl enable postgresql
 
-  #         - name: Start PostgreSQL database
-  #           run: sudo systemctl start postgresql
+          - name: Start PostgreSQL database
+            run: sudo systemctl start postgresql
           
-  #         - name: Create a service account (postgres user)
-  #           run: |
-  #             sudo -u postgres psql -c "CREATE USER ${{ secrets.PG_USER }} WITH PASSWORD '${{ secrets.PG_PASSWORD }}';"
-  #             sudo -u postgres psql -c "ALTER USER ${{ secrets.PG_USER }} CREATEDB;"
+          - name: Create a service account (postgres user)
+            run: |
+              sudo -u postgres psql -c "CREATE USER ${{ secrets.PG_USER }} WITH PASSWORD '${{ secrets.PG_PASSWORD }}';"
+              sudo -u postgres psql -c "ALTER USER ${{ secrets.PG_USER }} CREATEDB;"
         
           
-  #         - name: Create the .env file and write the environment variables to it
-  #           run: |
-  #             cat << EOF > .env
-  #             PG_USER=${{ secrets.PG_USER }}
-  #             PG_PASSWORD=${{ secrets.PG_PASSWORD }}
-  #             PG_DB=${{ secrets.PG_DB }}
-  #             PG_HOST=${{ secrets.PG_HOST }}
-  #             EOF
-  #             echo ".env file created with the specified content."
+          - name: Create the .env file and write the environment variables to it
+            run: |
+              cat << EOF > .env
+              PG_USER=${{ secrets.PG_USER }}
+              PG_PASSWORD=${{ secrets.PG_PASSWORD }}
+              PG_DB=${{ secrets.PG_DB }}
+              PG_HOST=${{ secrets.PG_HOST }}
+              EOF
+              echo ".env file created with the specified content."
               
-  #         - name: Install node dependencies
-  #           run: npm install
+          - name: Install node dependencies
+            run: npm install
               
-  #         - name: Run Integration tests
-  #           run: npm test
+          - name: Run Integration tests
+            run: npm test
   
 
   packer-build:
-        # needs: integration-test
+        needs: integration-test
         outputs:
           image_id: ${{ steps.packer-build.outputs.image_id }}
         runs-on: ubuntu-latest
@@ -132,9 +132,9 @@ jobs:
               # Create .env file
               cat <<EOL > "/opt/app/.env"
               PG_HOST=$(<dbhostname.txt)
-              PG_USER=webapp
+              PG_USER=${{ secrets.PG_USER_GCP }}
               PG_PASSWORD=$(<dbpassword.txt)
-              PG_DB=webapp
+              PG_DB=${{ secrets.PG_DB_GCP }}
               TOPIC_EMAIL=csye6225-send-verify-email
             EOL
               touch /opt/app/start.txt
@@ -148,26 +148,26 @@ jobs:
             echo "TEMPLATE_NAME=$TEMPLATE_NAME" >> $GITHUB_ENV
             gcloud compute instance-templates create "$TEMPLATE_NAME" \
                 --tags="webapp-server" \
-                --instance-template-region="us-east1" \
+                --instance-template-region="${{ secrets.GCP_REGION }}" \
                 --machine-type="e2-medium" \
                 --image=${{needs.packer-build.outputs.image_id}} \
-                --image-project="csye-6225-dev-413816" \
+                --image-project="${{ secrets.GCP_PROJECT }}" \
                 --boot-disk-size=50GB \
                 --boot-disk-type="pd-balanced" \
-                --boot-disk-kms-key="projects/csye-6225-dev-413816/locations/us-east1/keyRings/$(<keyringname.txt)/cryptoKeys/csye6255-key" \
-                --subnet="projects/csye-6225-dev-413816/regions/us-east1/subnetworks/webapp" \
+                --boot-disk-kms-key="projects/${{ secrets.GCP_PROJECT }}/locations/${{ secrets.GCP_REGION }}/keyRings/$(<keyringname.txt)/cryptoKeys/${{ secrets.GCP_KEY_NAME }}" \
+                --subnet="projects/${{ secrets.GCP_PROJECT }}/regions/${{ secrets.GCP_REGION }}/subnetworks/webapp" \
                 --network-tier="STANDARD" \
-                --service-account="webapp-vm-service-account@csye-6225-dev-413816.iam.gserviceaccount.com" \
+                --service-account="${{ secrets.GCP_WEBAPP_SA_EMAIL }}" \
                 --scopes="cloud-platform" \
                 --metadata-from-file=startup-script=startup_script.sh
           
         - name: Start Rolling Update
           run: |
               gcloud compute instance-groups managed rolling-action start-update "webapp-igm" \
-              --region="us-east1" --version template=projects/csye-6225-dev-413816/regions/us-east1/instanceTemplates/${{ env.TEMPLATE_NAME }} \
+              --region="${{ secrets.GCP_REGION }}" --version template=projects/${{ secrets.GCP_PROJECT }}/regions/${{ secrets.GCP_REGION }}/instanceTemplates/${{ env.TEMPLATE_NAME }} \
               --max-unavailable=3
             
         - name: Wait Until Rolling update complete
           run: |
               gcloud compute instance-groups managed wait-until "webapp-igm" \
-              --region="us-east1" --version-target-reached 
+              --region="${{ secrets.GCP_REGION }}" --version-target-reached 
