@@ -55,7 +55,7 @@ jobs:
   packer-build:
         # needs: integration-test
         outputs:
-          image_id: ${{ steps.packer_build.outputs.image_id }}
+          image_id: ${{ steps.packer-build.outputs.image_id }}
         runs-on: ubuntu-latest
         steps:
         - name: Update Ubuntu
@@ -85,6 +85,7 @@ jobs:
           run: "packer init ./packer/appBuildImage.pkr.hcl"
         
         - name: Run packer build
+          id: packer-build
           run: |
             output=$(packer build -var-file=packer/variables.pkrvars.hcl packer/)
             echo "$output"
@@ -121,7 +122,6 @@ jobs:
             gcloud secrets versions access latest --secret="dbhostname" > dbhostname.txt
             gcloud secrets versions access latest --secret="dbpassword" > dbpassword.txt
             gcloud secrets versions access latest --secret="csye6255" > keyringname.txt
-            ${{ needs.packer-build.outputs.image_id }} > latest_image.txt
         - name: Create Startup Script
           run: |
             cat <<EOF > startup_script.sh
@@ -150,7 +150,7 @@ jobs:
                 --tags="webapp-server" \
                 --instance-template-region="us-east1" \
                 --machine-type="e2-medium" \
-                --image=$(<latest_image.txt) \
+                --image=${{needs.packer-build.outputs.image_id}} \
                 --image-project="csye-6225-dev-413816" \
                 --boot-disk-size=50GB \
                 --boot-disk-type="pd-balanced" \
