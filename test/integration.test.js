@@ -35,7 +35,7 @@ describe('Integration Testing',() => {
         };
 
         const response = await request(app)
-          .post('/v2/user') 
+          .post('/v5/user') 
           .set('Accept', 'application/json')
           .send(userData);
     
@@ -45,7 +45,7 @@ describe('Integration Testing',() => {
       test('GET request to verify User exist', async () => {
 
         const response = await request(app)
-          .get('/v2/user/self')
+          .get('/v5/user/self')
           .auth('newUser@example.com', 'password123')
 
         expect(response.statusCode).toBe(200);
@@ -58,7 +58,7 @@ describe('Integration Testing',() => {
         };
 
         const response = await request(app)
-          .put('/v2/user/self') 
+          .put('/v5/user/self') 
           .set('Accept', 'application/json')
           .auth('newUser@example.com', 'password123')
           .send(userData);
@@ -69,7 +69,7 @@ describe('Integration Testing',() => {
       test('GET request to verify User exist', async () => {
 
         const response = await request(app)
-          .get('/v2/user/self')
+          .get('/v5/user/self')
           .auth('newUser@example.com', 'password123')
 
         expect(response.body.first_name).toEqual("newName");
